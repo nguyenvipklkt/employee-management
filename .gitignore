@@ -1,0 +1,113 @@
+# Build folders
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET Core / ASP.NET Core
+.vscode/
+.idea/
+
+# ASP.NET Core
+wwwroot/node_modules/
+wwwroot/lib/
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+*.swp
+*.sln.ide
+*.bak
+
+# Entity Framework migrations
+**/Migrations/
+
+# Logs and database files
+*.log
+*.nlog
+*.trace
+*.db
+*.sqlite
+*.pdb
+
+# Dependency caches
+packages/
+*.nuget
+.nuget/
+
+# Ignore publish output
+publish/
+*.PublishProfiles/
+
+# Environment variables (sensitive data)
+.env
+.env.*
+
+# Configuration files (appsettings, connection strings, etc.)
+appsettings*.json
+appsettings.*.json
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.docker/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# JetBrains Rider
+.idea/
+
+# Visual Studio Code settings
+.vscode/
+
+# JetBrains Rider User Preferences
+.idea/*workspace.xml
+.idea/*tasks.xml
+.idea/*modules.xml
+.idea/*profiles_settings.xml
+.idea/*profiles_mapping.xml
+.idea/*misc.xml
+.idea/*vcs.xml
+.idea/*encoding.xml
+.idea/.idea.icls
+
+# Rider
+*.iml
+.idea_modules/
+
+# Node.js related files (if used for front-end)
+node_modules/
+
+# Others
+*.lock
+.lock-wscript
+logs/
+*.seed
+*.pid
+*.pid.lock
+*.tgz
+*.gz
+*.gzip
+
+# Ignore binary files like versioned strings or other build artifacts
+*.bin
+*.v9.bin
+
+# Ignore Visual Studio index files
+*.vsidx
+
+# Ignore Visual Studio and tool cache files
+*.v2
+
+# Ignore Visual Studio layout files
+DocumentLayout.json
+DocumentLayout.backup.json
