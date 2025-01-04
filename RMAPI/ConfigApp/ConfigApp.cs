@@ -1,4 +1,6 @@
-﻿namespace RMAPI.ConfigApp
+﻿using Helper.NLog;
+
+namespace RMAPI.ConfigApp
 {
     public class ConfigApp
     {
@@ -10,9 +12,9 @@
             {
                 DBConnection = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                BaseNLog.logger.Error(ex);
                 throw;
             }
         }

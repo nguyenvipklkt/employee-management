@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Helper.NLog;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace Infrastructure.Context
@@ -7,10 +8,19 @@ namespace Infrastructure.Context
     {
         public AppDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer("data source=DESKTOP-2OTUFI8;initial catalog=restaurant_management;user id=sa;password=1234$;MultipleActiveResultSets=true;TrustServerCertificate=True;");
+			try
+			{
+                var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+                optionsBuilder.UseSqlServer("data source=DESKTOP-2OTUFI8;initial catalog=restaurant_management;user id=sa;password=1234$;MultipleActiveResultSets=true;TrustServerCertificate=True;");
 
-            return new AppDbContext(optionsBuilder.Options);
+                return new AppDbContext(optionsBuilder.Options);
+            }
+			catch (Exception ex)
+			{
+                BaseNLog.logger.Error(ex);
+                var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+                return new AppDbContext(optionsBuilder.Options);
+			}
         }
     }
 }

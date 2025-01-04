@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Helper.NLog;
+using Microsoft.EntityFrameworkCore;
+using NLog;
 using Shared;
 using System.Data;
 
@@ -13,7 +15,14 @@ namespace Infrastructure.Context
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            try
+            {
+                base.OnModelCreating(modelBuilder);
+            }
+            catch (Exception ex)
+            {
+                BaseNLog.logger.Error(ex);
+            }
 
         }
     }
