@@ -1,8 +1,8 @@
 ﻿using Helper.NLog;
+using Infrastructure.Seeder;
 using Microsoft.EntityFrameworkCore;
-using NLog;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Shared;
-using System.Data;
 
 namespace Infrastructure.Context
 {
@@ -12,18 +12,36 @@ namespace Infrastructure.Context
 
         #region DbSet
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserFunction> UserFunctions { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             try
             {
                 base.OnModelCreating(modelBuilder);
+                modelBuilder.SeedUser();
+                modelBuilder.SeedRole();
             }
             catch (Exception ex)
             {
                 BaseNLog.logger.Error(ex);
             }
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            try
+            {
+                base.OnConfiguring(optionsBuilder);
+                optionsBuilder.ConfigureWarnings(warnings =>
+                    warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+            }
+            catch (Exception ex)
+            {
+                BaseNLog.logger.Error(ex);
+            }
         }
     }
 }

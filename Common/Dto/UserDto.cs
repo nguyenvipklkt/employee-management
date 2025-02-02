@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.Dto
+﻿namespace Common.Dto
 {
     public class UserDto
     {
@@ -14,5 +8,6 @@ namespace Common.Dto
         public string Token { get; set; } = string.Empty;
         public DateTime Dob { get; set; }
         public string Address { get; set; } = string.Empty;
+        public string StatusAccount { get; set; } = string.Empty;
     }
 }

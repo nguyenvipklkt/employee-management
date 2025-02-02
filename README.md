@@ -1,5 +1,6 @@
 # restaurant-management-api
 #instruction
-- add migration: dotnet ef migrations add v1.1.1 --project Infrastructure --startup-project RMAPI
+- setup default project in package manager console : Infrastructure
+- add migration: add-migration [MigrationName]
 - update database: update-database
 

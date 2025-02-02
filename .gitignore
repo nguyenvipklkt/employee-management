@@ -50,10 +50,6 @@ publish/
 .env
 .env.*
 
-# Configuration files (appsettings, connection strings, etc.)
-appsettings*.json
-appsettings.*.json
-
 # Docker files
 Dockerfile
 docker-compose.yml

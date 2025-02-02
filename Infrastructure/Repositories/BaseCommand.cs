@@ -60,6 +60,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var entity = _model.Add(newEntity);
+                _context.SaveChanges();
                 return entity.Entity;
             }
             catch (Exception ex)

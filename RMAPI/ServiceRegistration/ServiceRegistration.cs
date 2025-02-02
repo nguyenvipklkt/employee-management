@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Repositories;
 using RMAPI.ConfigApp;
 using RMAPI.Services.Authentication;
+using RMAPI.Services.UserService;
 
 namespace RMAPI.ServiceRegistration
 {
@@ -13,6 +14,7 @@ namespace RMAPI.ServiceRegistration
             services.AddScoped<BaseQuery>();
             services.AddScoped<ConfigJWT>();
             services.AddScoped<UserAuthentication>();
+            services.AddScoped<UserService>();
         }
     }
 }

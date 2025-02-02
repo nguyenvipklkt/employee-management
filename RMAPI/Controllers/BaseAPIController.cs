@@ -1,8 +1,10 @@
-﻿using Common.Enum;
+﻿using System.Security.Claims;
+using Common.Enum;
+using Helper.NLog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace RMAPI.Controllers
 {
@@ -14,15 +16,27 @@ namespace RMAPI.Controllers
         {
             get
             {
-                return int.Parse(User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value);
+                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? null;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    BaseNLog.logger.Error("Không thể lấy thông tin id người dùng");
+                    throw new Exception("Lỗi máy chủ");
+                }
+                return int.Parse(userId);
             }
         }
 
-        public string Username
+        public string UserName
         {
             get
             {
-                return this.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value;
+                var userName = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? null;
+                if (string.IsNullOrEmpty(userName))
+                {
+                    BaseNLog.logger.Error("Không thể lấy thông tin tên người dùng");
+                    throw new Exception("Lỗi máy chủ");
+                }    
+                return userName;
             }
         }
 
@@ -32,11 +46,13 @@ namespace RMAPI.Controllers
             if (ex.GetType().Name == "ValidateError")
             {
                 response.Code = "ValidateError";
+                response.Message = "Failed";
                 return response;
             }
             else if (ex.GetType().Name == "SystemError")
             {
                 response.Code = "SystemError";
+                response.Message = "Failed";
                 return response;
             }
             return response;

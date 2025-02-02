@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using NLog;
 using RMAPI.ConfigApp;
 using RMAPI.ServiceRegistration;
@@ -23,6 +24,8 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -41,7 +44,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //setup logger
-string configPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName, "ConfigLog", "nlog.config");
+var baseDirectory = AppContext.BaseDirectory;
+var parentDirectory = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent;
+if (parentDirectory == null)
+{
+    throw new InvalidOperationException("Parent directory structure is not valid.");
+}
+string configPath = Path.Combine(parentDirectory.FullName, "ConfigLog", "nlog.config");
+
 string fixedPath = configPath.Replace("\\", "/");
 LogManager.Setup().LoadConfigurationFromFile(fixedPath);
 BaseNLog.logger.Info($"Run on Platform [{Environment.OSVersion.Platform}] - Debug version");
@@ -52,7 +62,37 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(ConfigApp.DBConnection));
 
+builder.Services.AddAutoMapper(typeof(MapperRegistraion));
 builder.Services.RegisterServices();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Enter JWT Bearer token like this: Bearer {your_token_here}",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+
+    c.AddSecurityDefinition("Bearer", securityScheme);
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            securityScheme,
+            new string[] {}
+        }
+    });
+});
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
