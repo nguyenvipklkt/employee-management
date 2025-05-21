@@ -18,7 +18,7 @@ namespace RMAPI.Controllers.UserController
         }
 
         [HttpGet]
-        [Route("GetProfile")]
+        [Route("getProfile")]
         public APIResponse GetProfile()
         {
             try

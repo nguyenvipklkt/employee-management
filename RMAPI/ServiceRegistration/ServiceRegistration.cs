@@ -13,6 +13,7 @@ namespace RMAPI.ServiceRegistration
             services.AddScoped(typeof(BaseCommand<>));
             services.AddScoped<BaseQuery>();
             services.AddScoped<ConfigJWT>();
+            services.AddScoped<EmailRegistration>();
             services.AddScoped<UserAuthentication>();
             services.AddScoped<UserService>();
         }

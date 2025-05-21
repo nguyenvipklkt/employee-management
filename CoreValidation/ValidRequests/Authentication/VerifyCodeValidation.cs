@@ -4,23 +4,19 @@ using FluentValidation;
 
 namespace CoreValidation.ValidRequests.Authentication
 {
-    public class RegisterValidation : BaseRule<Register>
+    public class VerifyCodeValidation : BaseRule<VerifyCode>
     {
-        public RegisterValidation()
+        public VerifyCodeValidation()
         {
-            RuleFor(x => x.Name)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Tên không được bỏ trống.")
-                .MaximumLength(20).WithMessage("Email chỉ chứa tối đa 20 ký tự.");
             RuleFor(x => x.Email)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Email không được bỏ trống.")
                 .Must(IsValidEmail).WithMessage("Email không đúng định dạng.")
                 .MaximumLength(250).WithMessage("Email chỉ chứa tối đa 250 ký tự.");
-            RuleFor(x => x.Password)
+            RuleFor(x => x.VerificationCode)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Mật khẩu không được bỏ trống")
-                .MinimumLength(6).WithMessage("Mật khẩu phải chứa tối thiểu 6 ký tự");
+                .NotEmpty().WithMessage("Mã xác thực không được bỏ trống")
+                .Length(6).WithMessage("Mã xác thực phải chứa 6 ký tự");
         }
     }
 }

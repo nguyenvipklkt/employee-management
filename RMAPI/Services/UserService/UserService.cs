@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using Common.Dto;
-using CoreValidation.Requests.Authentication;
-using CoreValidation.ValidRequests.Authentication;
-using Helper.BCryptHelper;
 using Helper.NLog;
-using Helper.Dictionary;
 using Infrastructure.Repositories;
 using RMAPI.ConfigApp;
 using Shared;

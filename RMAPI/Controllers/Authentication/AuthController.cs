@@ -1,5 +1,7 @@
 ﻿using Common.Enum;
 using CoreValidation.Requests.Authentication;
+using CoreValidation.ValidatorFunc;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RMAPI.Services.Authentication;
@@ -19,11 +21,12 @@ namespace RMAPI.Controllers.Authentication
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("Login")]
-        public APIResponse Login(Login request)
+        [Route("login")]
+        public APIResponse Login(Login request, IValidator<Login> validator)
         {
             try
             {
+                ValidatorFunc.ValidateRequest(validator, request);
                 var res = _userAuthentication.Login(request);
                 return new APIResponse { Data = res, Message = "Đăng nhập thành công" };
             }
@@ -35,8 +38,8 @@ namespace RMAPI.Controllers.Authentication
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("Register")]
-        public APIResponse Register(Register request)
+        [Route("register")]
+        public APIResponse Register(Register request, IValidator<Register> validator)
         {
             try
             {
@@ -48,5 +51,55 @@ namespace RMAPI.Controllers.Authentication
                 return NG(ex);
             }
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("sendOTP")]
+        public async Task<APIResponse> SendEmail(string email)
+        {
+            try
+            {
+                var res = await _userAuthentication.SendEmail(email);
+
+                return new APIResponse { Data = res, Message = "Đã gửi thành công mã xác thực về email!" };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("verifyCode")]
+        public APIResponse VerifyCode(VerifyCode request, IValidator<VerifyCode> validator)
+        {
+            try
+            {
+                var res = _userAuthentication.VerifyCode(request);
+                return new APIResponse { Data = res, Message = "Tài khoản xác thực thành công!" };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("refreshToken")]
+        public APIResponse RefreshToken([FromBody] RefreshRequestToken request)
+        {
+            try
+            {
+                var res = _userAuthentication.RefreshToken(request, UserId);
+                return new APIResponse { Data = res, Message = "Tài khoản xác thực thành công!" };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+
     }
 }
