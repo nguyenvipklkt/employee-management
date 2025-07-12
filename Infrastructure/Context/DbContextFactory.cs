@@ -11,7 +11,7 @@ namespace Infrastructure.Context
 			try
 			{
                 var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-                optionsBuilder.UseSqlServer("data source=DESKTOP-LSED99A;initial catalog=restaurant_management;user id=sa;password=1234$;MultipleActiveResultSets=true;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("data source=DESKTOP-0CTBSET;initial catalog=restaurant_management;user id=sa;password=1234$;MultipleActiveResultSets=true;TrustServerCertificate=True;");
 
                 return new AppDbContext(optionsBuilder.Options);
             }

@@ -1,4 +1,4 @@
-﻿namespace Common.Enum
+﻿namespace Object.Setting
 {
     public class APIResponse
     {

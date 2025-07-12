@@ -4,7 +4,7 @@ using Helper.NLog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+using Object.Setting;
 
 namespace RMAPI.Controllers
 {

@@ -1,9 +1,9 @@
-﻿using Common.Enum;
-using CoreValidation.Requests.Authentication;
+﻿using CoreValidation.Requests.Authentication;
 using CoreValidation.ValidatorFunc;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Object.Setting;
 using RMAPI.Services.Authentication;
 
 namespace RMAPI.Controllers.Authentication
@@ -43,6 +43,7 @@ namespace RMAPI.Controllers.Authentication
         {
             try
             {
+                ValidatorFunc.ValidateRequest(validator, request);
                 var res = _userAuthentication.Register(request);
                 return new APIResponse { Data = res, Message = "Đăng ký thành công. Vui lòng xác minh tài khoản." };
             }
@@ -76,6 +77,7 @@ namespace RMAPI.Controllers.Authentication
         {
             try
             {
+                ValidatorFunc.ValidateRequest(validator, request);
                 var res = _userAuthentication.VerifyCode(request);
                 return new APIResponse { Data = res, Message = "Tài khoản xác thực thành công!" };
             }

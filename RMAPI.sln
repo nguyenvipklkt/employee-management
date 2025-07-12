@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper", "Helper\Helper.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{2C35DF1D-12BD-4E23-BD04-6A9B54542751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{40545C89-4008-46CF-A29A-8FF57ED473A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Object", "Shared\Object.csproj", "{40545C89-4008-46CF-A29A-8FF57ED473A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{48A17AE2-31FE-431C-BD88-D7F253A6F7C9}"
 EndProject

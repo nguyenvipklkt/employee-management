@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
-using Common.Dto;
-using CoreValidation.Requests.Authentication;
-using CoreValidation.ValidRequests.Authentication;
-using Helper.BCryptHelper;
-using Helper.NLog;
-using Helper.Dictionary;
-using Infrastructure.Repositories;
-using RMAPI.ConfigApp;
-using Shared;
-using RMAPI.ServiceRegistration;
 using Common.Common;
-using CoreValidation.ValidatorFunc;
-using System.IdentityModel.Tokens.Jwt;
+using Common.Enum;
+using CoreValidation.Requests.Authentication;
+using Helper.BCryptHelper;
+using Helper.EmailHelper;
+using Helper.NLog;
+using Infrastructure.Repositories;
+using Object.Dto;
+using Object.Model;
+using RMAPI.ConfigApp;
 
 namespace RMAPI.Services.Authentication
 {
@@ -21,15 +18,15 @@ namespace RMAPI.Services.Authentication
         private readonly ConfigJWT _jwt;
         private readonly IMapper _mapper;
 
-        private readonly EmailRegistration _emailRegistration;
+        private readonly EmailHelper _emailHelper;
 
 
-        public UserAuthentication(BaseCommand<User> baseCommand, ConfigJWT jwt, IMapper mapper, EmailRegistration emailRegistration)
+        public UserAuthentication(BaseCommand<User> baseCommand, ConfigJWT jwt, IMapper mapper, EmailHelper emailHelper)
         {
             _baseCommand = baseCommand;
             _jwt = jwt;
             _mapper = mapper;
-            _emailRegistration = emailRegistration;
+            _emailHelper = emailHelper;
         }
 
         public UserDto Login(Login request)
@@ -53,8 +50,8 @@ namespace RMAPI.Services.Authentication
                 _baseCommand.UpdateByEntity(existedUser);
 
                 UserDto userDto = _mapper.Map<UserDto>(existedUser);
-                userDto.StatusAccount = Dictionary.StatusAccountDic.ContainsKey(existedUser.IsActive)
-                                           ? Dictionary.StatusAccountDic[existedUser.IsActive]
+                userDto.StatusAccount = CoreEnum.StatusAccountDic.ContainsKey(existedUser.IsActive)
+                                           ? CoreEnum.StatusAccountDic[existedUser.IsActive]
                                            : "Không xác định";
                 userDto.Token = token;
                 userDto.RefreshToken = refreshToken;
@@ -81,10 +78,11 @@ namespace RMAPI.Services.Authentication
                     Password = BCryptHelper.HashPassword(request.Password),
                     IsActive = 0,
                     RoleId = 2,
+                    CreateAt  = DateTime.UtcNow,
                 };
                 _baseCommand.Create(user);
                 UserDto userDto = _mapper.Map<UserDto>(user);
-                userDto.StatusAccount = Dictionary.StatusAccountDic[user.IsActive];
+                userDto.StatusAccount = CoreEnum.StatusAccountDic[user.IsActive];
                 return userDto;
             }
             catch (Exception ex)
@@ -125,7 +123,7 @@ namespace RMAPI.Services.Authentication
                 string code = CommonFunc.GenerateOTP();
                 user.OTP = code;
                 _baseCommand.UpdateByEntity(user);
-                await _emailRegistration.SendVerificationEmail(email, code);
+                await _emailHelper.SendVerificationEmail(email, code);
                 return true;
             }
             catch (Exception ex)
@@ -161,8 +159,8 @@ namespace RMAPI.Services.Authentication
                 var userDto = _mapper.Map<UserDto>(user);
                 userDto.Token = newAccessToken;
                 userDto.RefreshToken = newRefreshToken;
-                userDto.StatusAccount = Dictionary.StatusAccountDic.ContainsKey(user.IsActive)
-                                            ? Dictionary.StatusAccountDic[user.IsActive]
+                userDto.StatusAccount = CoreEnum.StatusAccountDic.ContainsKey(user.IsActive)
+                                            ? CoreEnum.StatusAccountDic[user.IsActive]
                                             : "Không xác định";
                 return userDto;
             }

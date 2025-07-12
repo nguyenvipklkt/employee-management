@@ -1,6 +1,5 @@
-﻿using Helper.BCryptHelper;
-using Microsoft.EntityFrameworkCore;
-using Shared;
+﻿using Microsoft.EntityFrameworkCore;
+using Object.Model;
 
 namespace Infrastructure.Seeder
 {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Shared
+namespace Object.Model
 {
     public class User : BaseModel
     {
@@ -14,10 +14,10 @@ namespace Shared
         public int IsActive { get; set; } = 0;
         public int RoleId { get; set; }
         public DateTime Dob {  get; set; }
-        public string OTP { get; set; } = string.Empty;
+        public int OTPId { get; set; }
         public string Address { get; set; } = string.Empty;
+        public int DepartmentId { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime? RefreshTokenExpiry { get; set; }
-
     }
 }

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Common.Dto;
 using Helper.NLog;
 using Infrastructure.Repositories;
+using Object.Dto;
+using Object.Model;
 using RMAPI.ConfigApp;
-using Shared;
 
 namespace RMAPI.Services.UserService
 {

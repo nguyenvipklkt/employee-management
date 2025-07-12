@@ -1,6 +1,6 @@
 using System;
 
-namespace Common.Dto
+namespace Object.Dto
 {
     public class RoleDto
     {

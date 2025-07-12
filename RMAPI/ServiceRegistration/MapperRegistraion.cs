@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Common.Dto;
-using Shared;
+using Object.Dto;
+using Object.Model;
 
 namespace RMAPI.ServiceRegistration
 {

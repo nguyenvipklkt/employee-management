@@ -5,9 +5,9 @@ using Object.Model;
 
 namespace Infrastructure.Seeder
 {
-    public static class UserSeeder
+    public static class OTPSeeder
     {
-        public static void SeedUser(this ModelBuilder modelBuilder)
+        public static void SeedOTP(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(
                 new User

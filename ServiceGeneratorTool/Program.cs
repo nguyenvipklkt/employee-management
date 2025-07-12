@@ -13,8 +13,8 @@ namespace ServiceGeneratorTool
             Console.Write("Choose (1 or 2): ");
             var choice = Console.ReadLine();
 
-            string sharedPath = @"..\..\..\..\Shared";
-            string dtoOutputPath = @"..\..\..\..\Common\Dto";
+            string sharedPath = @"..\..\..\..\Object\Model";
+            string dtoOutputPath = @"..\..\..\..\Object\Dto";
             string excelPath = @"..\..\..\..\ServiceGeneratorTool\DbSchema.xlsx";
 
             switch (choice)

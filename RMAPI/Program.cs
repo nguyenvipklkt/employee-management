@@ -1,5 +1,6 @@
 using CoreValidation.ValidRequests.Authentication;
 using FluentValidation;
+using Helper.EmailHelper;
 using Helper.NLog;
 using Infrastructure.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog;
+using Object.Setting;
 using RMAPI.ConfigApp;
 using RMAPI.ServiceRegistration;
 using System.Data;
@@ -63,9 +65,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(ConfigApp.DBConnection));
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(ConfigApp.DBConnection));
-
 builder.Services.AddAutoMapper(typeof(MapperRegistraion));
 builder.Services.RegisterServices();
+builder.Services.Configure<EmailSetting>(
+    builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<EmailHelper>();
+
 
 builder.Services.AddSwaggerGen(c =>
 {

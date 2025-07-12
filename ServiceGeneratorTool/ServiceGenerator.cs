@@ -8,8 +8,6 @@ namespace ServiceGeneratorTool
 {
     public static class ServiceGenerator
     {
-        static string dtoOutputPath = @"..\..\..\..\Common\Dto";
-
         /// <summary>
         /// Generate service from entity
         /// </summary>
@@ -287,30 +285,30 @@ namespace ServiceGeneratorTool
 
                 File.WriteAllText(filePath, sb.ToString());
                 Console.WriteLine($"✅ Entity created: {tableName}");
-                if (!string.IsNullOrEmpty(tableName))
-                {
-                    string outputServicePath = $@"..\..\..\..\RMAPI\Services\{tableName}Service";
-                    Directory.CreateDirectory(outputServicePath);
-                    var resDto = GenerateDto(tableName, sharedPath, dtoOutputPath);
-                    if (resDto == 1)
-                    {
-                        var resService = GenerateService(tableName, outputServicePath);
-                        if (resService == 1)
-                        {
-                            string controllerOutputPath = $@"..\..\..\..\RMAPI\Controllers\{tableName}Controller";
-                            if (!Directory.Exists(controllerOutputPath))
-                            {
-                                Directory.CreateDirectory(controllerOutputPath);
-                            }
-                            var resController = GenerateController(tableName, controllerOutputPath);
-                            if (resController == 1)
-                            {
-                                Console.WriteLine($"✔️ Created Dto ,Service and Controller for entity '{tableName}'");
-                            }
+                //if (!string.IsNullOrEmpty(tableName))
+                //{
+                //    string outputServicePath = $@"..\..\..\..\RMAPI\Services\{tableName}Service";
+                //    Directory.CreateDirectory(outputServicePath);
+                //    var resDto = GenerateDto(tableName, sharedPath, dtoOutputPath);
+                //    if (resDto == 1)
+                //    {
+                //        var resService = GenerateService(tableName, outputServicePath);
+                //        if (resService == 1)
+                //        {
+                //            string controllerOutputPath = $@"..\..\..\..\RMAPI\Controllers\{tableName}Controller";
+                //            if (!Directory.Exists(controllerOutputPath))
+                //            {
+                //                Directory.CreateDirectory(controllerOutputPath);
+                //            }
+                //            var resController = GenerateController(tableName, controllerOutputPath);
+                //            if (resController == 1)
+                //            {
+                //                Console.WriteLine($"✔️ Created Dto ,Service and Controller for entity '{tableName}'");
+                //            }
 
-                        }
-                    }
-                }
+                //        }
+                //    }
+                //}
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Infrastructure.Repositories;
+﻿using Helper.EmailHelper;
+using Infrastructure.Repositories;
 using RMAPI.ConfigApp;
 using RMAPI.Services.Authentication;
 using RMAPI.Services.UserService;
@@ -13,7 +14,7 @@ namespace RMAPI.ServiceRegistration
             services.AddScoped(typeof(BaseCommand<>));
             services.AddScoped<BaseQuery>();
             services.AddScoped<ConfigJWT>();
-            services.AddScoped<EmailRegistration>();
+            services.AddScoped<EmailHelper>();
             services.AddScoped<UserAuthentication>();
             services.AddScoped<UserService>();
         }

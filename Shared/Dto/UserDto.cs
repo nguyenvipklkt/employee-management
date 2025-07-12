@@ -1,4 +1,4 @@
-﻿namespace Common.Dto
+﻿namespace Object.Dto
 {
     public class UserDto
     {
