@@ -11,7 +11,8 @@ using Microsoft.OpenApi.Models;
 using NLog;
 using Object.Setting;
 using RMAPI.ConfigApp;
-using RMAPI.ServiceRegistration;
+using Service.ServiceRegistration;
+using Service.Worker;
 using System.Data;
 using System.Text;
 
@@ -65,13 +66,23 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(ConfigApp.DBConnection));
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(ConfigApp.DBConnection));
+
+// load error definitions to memory
+var errorService = new ErrorMem(new SqlConnection(ConfigApp.DBConnection));
+errorService.LoadErrorsToMemory();
+
+// Auto Mapper Configurations
 builder.Services.AddAutoMapper(typeof(MapperRegistraion));
+
+// register services
 builder.Services.RegisterServices();
+
+// Email configuration
 builder.Services.Configure<EmailSetting>(
     builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<EmailHelper>();
 
-
+// JWT configuration
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });

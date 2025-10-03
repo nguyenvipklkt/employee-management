@@ -3,7 +3,13 @@ using System.Data;
 
 namespace Infrastructure.Repositories
 {
-    public class BaseQuery
+    public interface IBaseQuery
+    {
+        Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null);
+        Task<T> QuerySingleAsync<T>(string sql, object parameters = null);
+    }
+
+    class BaseQuery : IBaseQuery
     {
         private readonly IDbConnection _connection;
 

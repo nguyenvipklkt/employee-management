@@ -3,14 +3,14 @@ using Object.Model;
 
 namespace Infrastructure.Seeder
 {
-    public static class UserFunctionSeeder
+    public static class FunctionSeeder
     {
-        public static void SeedUserFunction(this ModelBuilder modelBuilder)
+        public static void SeedFunction(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserFunction>().HasData(
-                 new UserFunction
+            modelBuilder.Entity<Function>().HasData(
+                 new Function
                  {
-                     UserFunctionId = 1,
+                     FunctionId = 1,
                      FunctionName = "VIEW_USER",
                      CreateAt = DateTime.Now
                  }

@@ -2,7 +2,7 @@
 using Object.Dto;
 using Object.Model;
 
-namespace RMAPI.ServiceRegistration
+namespace Service.ServiceRegistration
 {
     public class MapperRegistraion : Profile
     {

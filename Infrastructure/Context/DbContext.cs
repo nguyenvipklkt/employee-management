@@ -10,10 +10,14 @@ namespace Infrastructure.Context
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        //đăng ký các model vào dbcontext
         #region DbSet
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
-        public DbSet<UserFunction> UserFunction { get; set; }
+        public DbSet<Function> Function { get; set; }
+        public DbSet<OTP> OTP { get; set; }
+        public DbSet<Department> Department { get; set; }
+
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,7 +26,7 @@ namespace Infrastructure.Context
                 base.OnModelCreating(modelBuilder);
                 modelBuilder.SeedUser();
                 modelBuilder.SeedRole();
-                modelBuilder.SeedUserFunction();
+                modelBuilder.SeedFunction();
             }
             catch (Exception ex)
             {

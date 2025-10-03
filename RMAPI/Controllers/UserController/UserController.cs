@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Object.Model;
 using Object.Setting;
-using RMAPI.Helpers;
-using RMAPI.Services.UserService;
+using RMAPI.Middleware;
+using Service.Service.UserService;
 
 namespace RMAPI.Controllers.UserController
 {
@@ -13,10 +13,10 @@ namespace RMAPI.Controllers.UserController
     [Authorize]
     public class UserController : BaseApiController<UserController>
     {
-        private readonly UserService _userService;
-        private readonly BaseQuery _baseQuery;
+        private readonly IUserService _userService;
+        private readonly IBaseQuery _baseQuery;
         
-        public UserController(UserService userAuthentication, BaseQuery baseQuery)
+        public UserController(IUserService userAuthentication, IBaseQuery baseQuery)
         {
             _userService = userAuthentication;
             _baseQuery = baseQuery;
@@ -24,19 +24,11 @@ namespace RMAPI.Controllers.UserController
 
         [HttpGet]
         [Route("getProfile")]
+        [HasPermission("VIEW_PROFILE")]
         public async Task<APIResponse> GetProfile()
         {
             try
             {
-                var hasPermission = await AuthorizationUser.HasPermissionAsync(UserId, "VIEW_PROFILE", _baseQuery);
-                if (!hasPermission)
-                {
-                    return new APIResponse
-                    {
-                        Code = "-1",
-                        Message = "Không có quyền truy cập"
-                    };
-                }
                 var res = _userService.GetProfile(UserId);
                 return new APIResponse { Data = res };
             }

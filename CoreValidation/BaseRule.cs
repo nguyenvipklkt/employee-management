@@ -5,7 +5,7 @@ namespace CoreValidationRules
 {
     public abstract class BaseRule<T> : AbstractValidator<T>
     {
-        protected bool IsValidNumberPrecision<T>(T value, int maxDigits) where T : struct, IConvertible
+        protected bool IsValidNumberPrecision<TValue>(TValue value, int maxDigits) where TValue : struct, IConvertible
         {
             try
             {
@@ -36,7 +36,7 @@ namespace CoreValidationRules
             }
         }
 
-        protected bool IsValidIntPartNumPrecision<T>(T value, int maxDigits) where T : struct, IConvertible
+        protected bool IsValidIntPartNumPrecision<TValue>(TValue value, int maxDigits) where TValue : struct, IConvertible
         {
             try
             {
@@ -65,7 +65,7 @@ namespace CoreValidationRules
             }
         }
 
-        protected bool IsValidDecPartNumPrecision<T>(T value, int maxDigits) where T : struct, IConvertible
+        protected bool IsValidDecPartNumPrecision<TValue>(TValue value, int maxDigits) where TValue : struct, IConvertible
         {
             try
             {
@@ -93,7 +93,7 @@ namespace CoreValidationRules
                 return true;
             }
         }
-        protected bool IsGreaterThan<T>(T value, T minValue) where T : struct, IComparable<T>
+        protected bool IsGreaterThan<TValue>(TValue value, TValue minValue) where TValue : struct, IComparable<TValue>
         {
             try
             {

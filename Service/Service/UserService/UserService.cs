@@ -3,20 +3,22 @@ using Helper.NLog;
 using Infrastructure.Repositories;
 using Object.Dto;
 using Object.Model;
-using RMAPI.ConfigApp;
 
-namespace RMAPI.Services.UserService
+namespace Service.Service.UserService
 {
-    public class UserService
+    public interface IUserService
     {
-        private readonly BaseCommand<User> _baseCommand;
-        private readonly ConfigJWT _jwt;
+        UserDto GetProfile(int userId);
+    }
+
+    class UserService
+    {
+        private readonly IBaseCommand<User> _baseCommand;
         private readonly IMapper _mapper;
 
-        public UserService(BaseCommand<User> baseCommand, ConfigJWT jwt, IMapper mapper)
+        public UserService(IBaseCommand<User> baseCommand, IMapper mapper)
         {
             _baseCommand = baseCommand;
-            _jwt = jwt;
             _mapper = mapper;
         }
 
