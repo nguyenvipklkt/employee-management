@@ -1,18 +1,19 @@
 ﻿using Infrastructure.Repositories;
 
-namespace RMAPI.Helpers
+namespace RMAPI.Middleware
 {
     public static class AuthorizationUser
     {
         public static async Task<bool> HasPermissionAsync(
             int userId,
             string permission,
-            BaseQuery baseQuery)
+            IBaseQuery baseQuery)
         {
             const string sql = @"
                 SELECT r.UserFunctionIdList
                 FROM [User] u
                 JOIN [Role] r ON u.RoleId = r.RoleId
+                JOIN [UserFunction] uf on r.UserFunctionIdList like '%' + CAST(uf.UserFunctionId as varchar) + '%'
                 WHERE u.UserId = @UserId";
 
             var result = await baseQuery.QuerySingleAsync<string>(sql, new { UserId = userId });

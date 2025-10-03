@@ -5,7 +5,20 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories
 {
-    public class BaseCommand<T> where T : class
+    public interface IBaseCommand<T> where T : class
+    {
+        IQueryable<T> FindAll();
+        IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        Task<int> CountByConditionAsync(Expression<Func<T, bool>> expression);
+        T FindOrFail(object id);
+        T Create(T newEntity);
+        T UpdateByEntity(T entity);
+        bool UpdateByEntityList(IEnumerable<T> entityList);
+        bool UpdateRange(List<T> range);
+        bool DeleteByEntity(T entity);
+    }
+
+    class BaseCommand<T> : IBaseCommand<T> where T : class
     {
         private readonly AppDbContext _context;
         private DbSet<T> _model { get; set; }

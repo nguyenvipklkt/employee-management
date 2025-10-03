@@ -4,7 +4,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Object.Setting;
-using RMAPI.Services.Authentication;
+using Service.Service.Authentication;
 
 namespace RMAPI.Controllers.Authentication
 {
@@ -12,9 +12,9 @@ namespace RMAPI.Controllers.Authentication
     [Route("api/authentication")]
     public class AuthController : BaseApiController<AuthController>
     {
-        private readonly UserAuthentication _userAuthentication;
+        private readonly IUserAuthentication _userAuthentication;
         
-        public AuthController(UserAuthentication userAuthentication)
+        public AuthController(IUserAuthentication userAuthentication)
         {
             _userAuthentication = userAuthentication;
         }
