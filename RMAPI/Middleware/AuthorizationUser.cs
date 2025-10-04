@@ -4,25 +4,48 @@ namespace RMAPI.Middleware
 {
     public static class AuthorizationUser
     {
-        public static async Task<bool> HasPermissionAsync(
-            int userId,
-            string permission,
-            IBaseQuery baseQuery)
+        public static async Task<bool> HasPermissionAsync(int userId, string permission, IBaseQuery baseQuery)
         {
-            const string sql = @"
-                SELECT r.UserFunctionIdList
+            // 1. Check theo Role
+            const string roleSql = @"
+                SELECT r.FunctionIdList
                 FROM [User] u
                 JOIN [Role] r ON u.RoleId = r.RoleId
-                JOIN [UserFunction] uf on r.UserFunctionIdList like '%' + CAST(uf.UserFunctionId as varchar) + '%'
                 WHERE u.UserId = @UserId";
 
-            var result = await baseQuery.QuerySingleAsync<string>(sql, new { UserId = userId });
+            var functionIdListRaw = await baseQuery.QuerySingleAsync<string>(roleSql, new { UserId = userId });
 
-            if (string.IsNullOrWhiteSpace(result))
-                return false;
+            if (!string.IsNullOrWhiteSpace(functionIdListRaw))
+            {
+                var functionIds = functionIdListRaw
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(id => int.Parse(id.Trim()))
+                    .ToList();
 
-            var permissions = result.Split(',', StringSplitOptions.RemoveEmptyEntries);
-            return permissions.Contains(permission);
+                if (functionIds.Any())
+                {
+                    const string getFunctionCodesSql = @"
+                        SELECT FunctionCode
+                        FROM [Function]
+                        WHERE FunctionId IN @Ids";
+
+                    var functionCodes = await baseQuery.QueryAsync<string>(getFunctionCodesSql, new { Ids = functionIds });
+                    if (functionCodes.Contains(permission))
+                        return true;
+                }
+            }
+
+            // 2. Check theo quyền riêng (UserFunction)
+            const string userFunctionSql = @"
+                SELECT f.FunctionCode
+                FROM [UserFunction] uf
+                JOIN [Function] f ON uf.FunctionId = f.FunctionId
+                WHERE uf.UserId = @UserId";
+
+            var userFunctionCodes = await baseQuery.QueryAsync<string>(userFunctionSql, new { UserId = userId });
+
+            return userFunctionCodes.Contains(permission);
         }
+
     }
 }

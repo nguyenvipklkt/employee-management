@@ -9,7 +9,7 @@ namespace Infrastructure.Repositories
         Task<T> QuerySingleAsync<T>(string sql, object parameters = null);
     }
 
-    class BaseQuery : IBaseQuery
+    public class BaseQuery : IBaseQuery
     {
         private readonly IDbConnection _connection;
 

@@ -9,6 +9,7 @@ namespace Object.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FunctionId { get; set; } // Mã chức năng
+        public string FunctionCode { get; set; } = string.Empty; // Định danh chức năng
         public string FunctionName { get; set; } = string.Empty; // Tên chức năng
     }
 }

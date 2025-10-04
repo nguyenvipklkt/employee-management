@@ -11,7 +11,7 @@ namespace Service.Service.UserService
         UserDto GetProfile(int userId);
     }
 
-    class UserService
+    public class UserService : IUserService
     {
         private readonly IBaseCommand<User> _baseCommand;
         private readonly IMapper _mapper;

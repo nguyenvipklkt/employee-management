@@ -12,10 +12,10 @@ namespace Service.ServiceRegistration
         public static void RegisterServices(this IServiceCollection services)
         {
             // Đăng ký interfaces
-            services.AddScoped(typeof(IBaseCommand<>));
-            services.AddScoped<IBaseQuery>();
-            services.AddScoped<IUserAuthentication>();
-            services.AddScoped<IUserService>();
+            services.AddScoped(typeof(IBaseCommand<>), typeof(BaseCommand<>));
+            services.AddScoped<IBaseQuery, BaseQuery>();
+            services.AddScoped<IUserAuthentication, UserAuthentication>();
+            services.AddScoped<IUserService, UserService>();
 
             // Đăng ký class
             services.AddScoped<ConfigJWT>();

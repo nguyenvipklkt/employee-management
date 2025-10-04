@@ -12,14 +12,14 @@ namespace Infrastructure.Seeder
                 {
                     RoleId = 1,
                     RoleName = "Admin",
-                    UserFunctionIdList = string.Empty,
+                    FunctionIdList = "1",
                     CreateAt = DateTime.Now
                 },
                 new Role
                 {
                     RoleId = 2,
                     RoleName = "Employee",
-                    UserFunctionIdList = string.Empty,
+                    FunctionIdList = "1",
                     CreateAt = DateTime.Now
                 }
             );

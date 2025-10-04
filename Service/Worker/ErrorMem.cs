@@ -16,7 +16,7 @@ namespace Service.Worker
 
         public void LoadErrorsToMemory()
         {
-            string sql = "SELECT * FROM ErrorDefinitions";
+            string sql = "SELECT * FROM ErrorDefinition";
             var errors = _connection.Query<ErrorDefinition>(sql).ToList();
             ErrorsInMemory = errors;
             Console.WriteLine($"✔️ Loaded {errors.Count} error definitions to memory.");

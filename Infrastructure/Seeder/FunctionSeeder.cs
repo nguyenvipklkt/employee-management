@@ -11,7 +11,8 @@ namespace Infrastructure.Seeder
                  new Function
                  {
                      FunctionId = 1,
-                     FunctionName = "VIEW_USER",
+                     FunctionCode = "VIEW_PROFILE",
+                     FunctionName = "Xem thông tin người dùng",
                      CreateAt = DateTime.Now
                  }
             );

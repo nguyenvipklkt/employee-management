@@ -24,7 +24,7 @@ namespace Service.Service.Authentication
         UserDto RefreshToken(RefreshRequestToken request, int userId);
     }
 
-    class UserAuthentication : IUserAuthentication
+    public class UserAuthentication : IUserAuthentication
     {
         private readonly IBaseCommand<User> _baseUserCommand;
         private readonly IBaseCommand<OTP> _baseOTPCommand;

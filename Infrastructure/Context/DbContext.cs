@@ -15,9 +15,11 @@ namespace Infrastructure.Context
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Function> Function { get; set; }
+        public DbSet<UserFunction> UserFunction { get; set; }
         public DbSet<OTP> OTP { get; set; }
         public DbSet<Department> Department { get; set; }
-
+        public DbSet<ErrorDefinition> ErrorDefinition { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories
         bool DeleteByEntity(T entity);
     }
 
-    class BaseCommand<T> : IBaseCommand<T> where T : class
+    public class BaseCommand<T> : IBaseCommand<T> where T : class
     {
         private readonly AppDbContext _context;
         private DbSet<T> _model { get; set; }
