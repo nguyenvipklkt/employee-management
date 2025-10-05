@@ -18,5 +18,8 @@ namespace Object.Model
         public int OTPId { get; set; } // OTPID
         public string Address { get; set; } = string.Empty; // Địa chỉ
         public int DepartmentId { get; set; } // Mã phòng ban
+        public int IsSuperAdmin { get; set; } // Có quyền tuyệt đối hay không
+        public DateTime LastLoginAt { get; set; } // Đăng nhập vào
+        public int CanGrantPermission { get; set; } // Có thể gán quyền hay không
     }
 }

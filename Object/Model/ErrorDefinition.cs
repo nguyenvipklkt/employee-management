@@ -9,7 +9,7 @@ namespace Object.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ErrorDefinitionId { get; set; } // Số tự tăng
-        public string ErrorId { get; set; } = string.Empty; // Mã lỗi
+        public string ErrorCode { get; set; } = string.Empty; // Mã lỗi
         public string ErrorName { get; set; } = string.Empty; // Tên lỗi
         public string Description { get; set; } = string.Empty; // mô tả
     }

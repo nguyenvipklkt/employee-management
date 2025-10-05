@@ -1,7 +1,6 @@
 ﻿using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Object.Model;
 using Object.Setting;
 using RMAPI.Middleware;
 using Service.Service.UserService;
@@ -24,8 +23,8 @@ namespace RMAPI.Controllers.UserController
 
         [HttpGet]
         [Route("getProfile")]
-        [HasPermission("VIEW_PROFILE")]
-        public async Task<APIResponse> GetProfile()
+        [HasPermission("")]
+        public APIResponse GetProfile()
         {
             try
             {

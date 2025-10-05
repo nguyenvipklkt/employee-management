@@ -27,7 +27,8 @@ namespace RMAPI.Controllers.Authentication
             try
             {
                 ValidatorFunc.ValidateRequest(validator, request);
-                var res = _userAuthentication.Login(request);
+                var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+                var res = _userAuthentication.Login(request, ip ?? "");
                 return new APIResponse { Data = res, Message = "Đăng nhập thành công" };
             }
             catch (Exception ex)
@@ -93,7 +94,7 @@ namespace RMAPI.Controllers.Authentication
         {
             try
             {
-                var res = _userAuthentication.RefreshToken(request, UserId);
+                var res = _userAuthentication.RefreshAccessToken(request, UserId);
                 return new APIResponse { Data = res, Message = "Tài khoản xác thực thành công!" };
             }
             catch (Exception ex)

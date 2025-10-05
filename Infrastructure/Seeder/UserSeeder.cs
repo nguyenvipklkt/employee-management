@@ -23,6 +23,8 @@ namespace Infrastructure.Seeder
                     RoleId = 1,
                     IsActive = 1,
                     DepartmentId = 1,
+                    IsSuperAdmin = 1,
+                    CanGrantPermission = 1,
                 }
             );
         }

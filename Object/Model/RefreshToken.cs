@@ -15,6 +15,6 @@ namespace Object.Model
         public string CreatedByIp { get; set; } = string.Empty; // IP đăng nhập
         public DateTime RevokedAt { get; set; } // Thu hồi chưa
         public string ReplacedByToken { get; set; } = string.Empty; // Nếu bị thay thì bị thay bởi token nào
-        public string IsActive { get; set; } = string.Empty; // Token còn hợp lệ không
+        public int IsActive { get; set; } // Token còn hợp lệ không
     }
 }

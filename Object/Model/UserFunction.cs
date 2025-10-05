@@ -11,5 +11,7 @@ namespace Object.Model
         public int UserFunctionId { get; set; } // Mã chức năng của người dùng
         public int FunctionId { get; set; } // Mã chức năng
         public int UserId { get; set; } // Mã người dùng
+        public int GrantorId { get; set; } // Người gán quyền
+        public DateTime GrantAt { get; set; } // Thời điểm gán
     }
 }

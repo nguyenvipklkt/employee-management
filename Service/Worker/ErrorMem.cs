@@ -22,9 +22,9 @@ namespace Service.Worker
             Console.WriteLine($"✔️ Loaded {errors.Count} error definitions to memory.");
         }
 
-        public static string GetErrorNameById(string errorId)
+        public static string GetErrorNameByCode(string errorCode)
         {
-            return ErrorsInMemory.FirstOrDefault(e => e.ErrorId == errorId)?.ErrorName ?? "";
+            return ErrorsInMemory.FirstOrDefault(e => e.ErrorCode == errorCode)?.ErrorName ?? "";
         }
     }
 }
