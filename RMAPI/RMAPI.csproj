@@ -27,6 +27,11 @@
 
   <ItemGroup>
     <None Include="ConfigLog\nlog.config" />
+    <None Include="D:\Project\School\restaurant-management-api\RMAPI\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Project\School\restaurant-management-api\RMAPI\.editorconfig" />
   </ItemGroup>
 
 </Project>

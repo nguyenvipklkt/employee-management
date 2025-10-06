@@ -22,7 +22,7 @@ namespace RMAPI.Controllers.UserController
         }
 
         [HttpGet]
-        [Route("getProfile")]
+        [Route("get-profile")]
         [HasPermission("")]
         public APIResponse GetProfile()
         {

@@ -11,6 +11,6 @@ namespace Object.Model
         public int WarehouseId { get; set; } // Mã kho
         public string Name { get; set; } = string.Empty; // Tên kho
         public string Location { get; set; } = string.Empty; // Vị trí
-        public int DepartmentId { get; set; } // Mã phòng ban
+        public int DepartmentId { get; set; } // Mã cơ sở
     }
 }

@@ -51,7 +51,7 @@ namespace Service.Service.Authentication
             {
                 var existedUser = _baseUserCommand.FindByCondition(x => x.Email == request.Email).FirstOrDefault();
                 if (existedUser == null)
-                    throw new Exception(ErrorMem.GetErrorNameByCode(UserError.USER_NOT_FOUND));
+                    throw new Exception("Không tồn tại người dùng này.");
                 var isValidPassword = BCryptHelper.VerifyPassword(request.Password ?? "", existedUser.Password);
                 if (isValidPassword == false)
                     throw new Exception("Nhập sai thông tin tài khoản hoặc mật khẩu");

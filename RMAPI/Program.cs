@@ -1,4 +1,4 @@
-using CoreValidation.ValidRequests.Authentication;
+using CoreValidation.Requests.Authentication;
 using FluentValidation;
 using Helper.EmailHelper;
 using Helper.NLog;
@@ -149,6 +149,7 @@ app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 app.MapControllers();
 
 // Redirect root URL to Swagger UI

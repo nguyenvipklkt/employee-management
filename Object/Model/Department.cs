@@ -8,9 +8,10 @@ namespace Object.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DepartmentId { get; set; } // Mã phòng ban
-        public string DepartmentName { get; set; } = string.Empty; // Tên phòng ban
+        public int DepartmentId { get; set; } // Mã Cơ sở
+        public string DepartmentName { get; set; } = string.Empty; // Tên cơ sở
         public string DepartmentAddress { get; set; } = string.Empty; // Địa chỉ
-        public int DepartmentTypeId { get; set; } // Loại phòng ban
+        public int? ManagerId { get; set; } // Id quản lý
+        public string? DepartmentPhoto { get; set; } = string.Empty; // Ảnh cơ sở
     }
 }

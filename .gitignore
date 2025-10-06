@@ -107,3 +107,9 @@ logs/
 # Ignore Visual Studio layout files
 DocumentLayout.json
 DocumentLayout.backup.json
+
+# Ignore Visual Studio and Copilot cache files
+.vs/
+*.db
+*.db-shm
+*.db-wal

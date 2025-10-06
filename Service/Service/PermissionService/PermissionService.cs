@@ -1,5 +1,7 @@
-﻿using CoreValidation.Requests.Authentication;
+﻿using Common.Enum.ErrorEnum;
+using CoreValidation.Requests.Authentication;
 using CoreValidation.Requests.Permision;
+using Helper.NLog;
 using Infrastructure.Repositories;
 using Object.Dto;
 using Object.Model;
@@ -9,8 +11,8 @@ namespace Service.Service.PermissionService
 {
     public interface IPermissionService
     {
-        bool GrantPermission(int grantorUserId, GrantPermissionRequest request);
-        bool RevokePermission(int grantorUserId, RevokePermissionRequest request);
+        long GrantPermission(int grantorUserId, GrantPermissionRequest request);
+        long RevokePermission(int grantorUserId, RevokePermissionRequest request);
         List<FunctionDto> GetPermissionsOfUser(int targetUserId);
         List<FunctionDto> GetFunctionsUserCanGrant(int grantorUserId);
     }
@@ -28,81 +30,113 @@ namespace Service.Service.PermissionService
             _functionCommand = functionCommand;
         }
 
-        public bool GrantPermission(int grantorUserId, GrantPermissionRequest request)
+        public long GrantPermission(int grantorUserId, GrantPermissionRequest request)
         {
-            // Lấy danh sách functionId mà người gán được phép gán
-            var grantableFunctionIds = GetFunctionsUserCanGrant(grantorUserId)
-                                       .Select(f => f.FunctionId)
-                                       .ToHashSet();
-
-            foreach (var functionId in request.FunctionIds)
+            try
             {
-                // Nếu không có quyền thì skip
-                if (!grantableFunctionIds.Contains(functionId))
-                    continue;
+                // Lấy danh sách functionId mà người gán được phép gán
+                var grantableFunctionIds = GetFunctionsUserCanGrant(grantorUserId)
+                                           .Select(f => f.FunctionId)
+                                           .ToHashSet();
 
-                // Nếu đã có quyền rồi thì skip
-                var exists = _userFunctionCommand.FindByCondition(x =>
-                    x.UserId == request.TargetUserId &&
-                    x.FunctionId == functionId
-                ).Any();
-
-                if (!exists)
+                foreach (var functionId in request.FunctionIds)
                 {
-                    var uf = new UserFunction
-                    {
-                        UserId = request.TargetUserId,
-                        FunctionId = functionId,
-                        GrantorId = grantorUserId,
-                        GrantAt = DateTime.UtcNow
-                    };
-                    _userFunctionCommand.Create(uf);
-                }
-            }
+                    // Nếu không có quyền thì skip
+                    if (!grantableFunctionIds.Contains(functionId))
+                        continue;
 
-            return true;
+                    // Nếu đã có quyền rồi thì skip
+                    var exists = _userFunctionCommand.FindByCondition(x =>
+                        x.UserId == request.TargetUserId &&
+                        x.FunctionId == functionId
+                    ).Any();
+
+                    if (!exists)
+                    {
+                        var uf = new UserFunction
+                        {
+                            UserId = request.TargetUserId,
+                            FunctionId = functionId,
+                            GrantorId = grantorUserId,
+                            GrantAt = DateTime.UtcNow
+                        };
+                        _userFunctionCommand.Create(uf);
+                    }
+                }
+
+                return GenericError.SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                BaseNLog.logger.Error(ex);
+                throw;
+            }
         }
 
-        public bool RevokePermission(int grantorUserId, RevokePermissionRequest request)
+        public long RevokePermission(int grantorUserId, RevokePermissionRequest request)
         {
-            var userFunction = _userFunctionCommand.FindByCondition(x =>
-                x.UserId == request.TargetUserId &&
-                x.FunctionId == request.FunctionId
-            ).FirstOrDefault();
-
-            if (userFunction != null)
+            try
             {
-                // Có thể kiểm tra nếu chỉ cho phép người đã gán mới được thu hồi:
-                // if (userFunction.GrantorId != grantorUserId) return false;
-                userFunction.IsDeleted = true;
-                userFunction.UpdateAt = DateTime.UtcNow;
-                _userFunctionCommand.UpdateByEntity(userFunction);
-            }
+                var userFunction = _userFunctionCommand.FindByCondition(x =>
+                                        x.UserId == request.TargetUserId &&
+                                        x.FunctionId == request.FunctionId
+                                    ).FirstOrDefault();
 
-            return true;
+                if (userFunction != null)
+                {
+                    // Có thể kiểm tra nếu chỉ cho phép người đã gán mới được thu hồi:
+                    // if (userFunction.GrantorId != grantorUserId) return false;
+                    userFunction.IsDeleted = true;
+                    userFunction.UpdateAt = DateTime.UtcNow;
+                    _userFunctionCommand.UpdateByEntity(userFunction);
+                }
+
+                return GenericError.SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                BaseNLog.logger.Error(ex);
+                throw;
+            }   
         }
 
         public List<FunctionDto> GetPermissionsOfUser(int targetUserId)
         {
-            var functionIds = _userFunctionCommand.FindByCondition(x => x.UserId == targetUserId)
-                                                  .Select(x => x.FunctionId)
-                                                  .ToList();
+            try
+            {
+                var functionIds = _userFunctionCommand.FindByCondition(x => x.UserId == targetUserId)
+                                                      .Select(x => x.FunctionId)
+                                                      .ToList();
 
-            var functions = _functionCommand.FindByCondition(f => functionIds.Contains(f.FunctionId))
-                                            .Select(f => new FunctionDto
-                                            {
-                                                FunctionId = f.FunctionId,
-                                                FunctionCode = f.FunctionCode,
-                                                FunctionName = f.FunctionName
-                                            }).ToList();
+                var functions = _functionCommand.FindByCondition(f => functionIds.Contains(f.FunctionId))
+                                                .Select(f => new FunctionDto
+                                                {
+                                                    FunctionId = f.FunctionId,
+                                                    FunctionCode = f.FunctionCode,
+                                                    FunctionName = f.FunctionName
+                                                }).ToList();
 
-            return functions;
+                return functions;
+            }
+            catch (Exception ex)
+            {
+                BaseNLog.logger.Error(ex);
+                throw;
+            }
         }
 
         public List<FunctionDto> GetFunctionsUserCanGrant(int grantorUserId)
         {
-            // Có thể sửa lại sau nếu dùng logic phân cấp hoặc group quyền
-            return GetPermissionsOfUser(grantorUserId);
+            try
+            {
+                // Có thể sửa lại sau nếu dùng logic phân cấp hoặc group quyền
+                return GetPermissionsOfUser(grantorUserId);
+            }
+            catch (Exception ex)
+            {
+                BaseNLog.logger.Error(ex);
+                throw;
+            }
         }
     }
 }

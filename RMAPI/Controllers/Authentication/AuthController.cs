@@ -1,5 +1,5 @@
-﻿using CoreValidation.Requests.Authentication;
-using CoreValidation.ValidatorFunc;
+﻿using CoreValidation;
+using CoreValidation.Requests.Authentication;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +56,7 @@ namespace RMAPI.Controllers.Authentication
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("sendOTP")]
+        [Route("send-otp")]
         public async Task<APIResponse> SendEmail(string email)
         {
             try
@@ -73,7 +73,7 @@ namespace RMAPI.Controllers.Authentication
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("verifyCode")]
+        [Route("verify-code")]
         public APIResponse VerifyCode(VerifyCode request, IValidator<VerifyCode> validator)
         {
             try
@@ -89,7 +89,7 @@ namespace RMAPI.Controllers.Authentication
         }
 
         [HttpPost]
-        [Route("refreshToken")]
+        [Route("refresh-token")]
         public APIResponse RefreshToken([FromBody] RefreshRequestToken request)
         {
             try

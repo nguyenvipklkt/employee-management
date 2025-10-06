@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace CoreValidation.ValidatorFunc
+namespace CoreValidation
 {
     public static class ValidatorFunc
     {

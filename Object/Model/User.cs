@@ -17,7 +17,7 @@ namespace Object.Model
         public DateTime Dob { get; set; } // Ngày sinh
         public int OTPId { get; set; } // OTPID
         public string Address { get; set; } = string.Empty; // Địa chỉ
-        public int DepartmentId { get; set; } // Mã phòng ban
+        public int DepartmentId { get; set; } // Mã cơ sở
         public int IsSuperAdmin { get; set; } // Có quyền tuyệt đối hay không
         public DateTime LastLoginAt { get; set; } // Đăng nhập vào
         public int CanGrantPermission { get; set; } // Có thể gán quyền hay không
