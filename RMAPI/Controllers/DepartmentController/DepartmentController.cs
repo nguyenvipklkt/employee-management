@@ -25,7 +25,7 @@ namespace RMAPI.Controllers.DepartmentController
 
         [HttpGet]
         [Route("get-all-departments")]
-        [HasPermission("VIEW_DEPARTMENTS")]
+        [HasPermission("VIEW_ALL_DEPARTMENTS")]
         public APIResponse GetAllDepartments()
         {
             try

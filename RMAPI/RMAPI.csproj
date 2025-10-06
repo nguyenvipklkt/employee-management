@@ -34,4 +34,9 @@
     <EditorConfigFiles Remove="D:\Project\School\restaurant-management-api\RMAPI\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\functions\" />
+    <Folder Include="wwwroot\templates\" />
+  </ItemGroup>
+
 </Project>

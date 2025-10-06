@@ -36,5 +36,9 @@ namespace RMAPI.Controllers.UserController
                 return NG(ex);
             }
         }
+
+        [HttpGet]
+        [Route("search-managers-by-name")]
+        [HasPermission("SEARCH_MANAGER_BY_NAME")]
     }
 }
