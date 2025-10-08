@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace CoreValidation.Requests.Department
 {
@@ -12,6 +8,6 @@ namespace CoreValidation.Requests.Department
         public string DepartmentName { get; set; } = string.Empty;
         public string DepartmentAddress { get; set; } = string.Empty;
         public int? ManagerId { get; set; }
-        public Stream? Photo { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Helper.BCryptHelper;
+﻿using Common.Enum.RoleEnum;
+using Helper.BCryptHelper;
 using Microsoft.EntityFrameworkCore;
 using Object.Model;
 
@@ -20,7 +21,7 @@ namespace Infrastructure.Seeder
                     OTPId = 1,
                     Address = "Hà Nội",
                     CreateAt = DateTime.Now,
-                    RoleId = 1,
+                    RoleCode = RoleEnum.ADMIN,
                     IsActive = 1,
                     DepartmentId = 1,
                     IsSuperAdmin = 1,

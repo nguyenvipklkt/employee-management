@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Object.Setting;
 using RMAPI.Middleware;
 using Service.Service.DepartmentService;
-using Service.Service.UserService;
 
 namespace RMAPI.Controllers.DepartmentController
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/department")]
     [Authorize]
     public class DepartmentController : BaseApiController<DepartmentController>
     {
@@ -42,7 +41,7 @@ namespace RMAPI.Controllers.DepartmentController
         [HttpPost]
         [Route("add-department")]
         [HasPermission("ADD_DEPARTMENT")]
-        public APIResponse AddDepartment(AddDepartmentRequest request)
+        public APIResponse AddDepartment([FromForm] AddDepartmentRequest request)
         {
             try
             {
@@ -90,7 +89,7 @@ namespace RMAPI.Controllers.DepartmentController
         [HttpPost]
         [Route("update-department-by-id")]
         [HasPermission("UPDATE_DEPARTMENT")]
-        public APIResponse UpdateDepartmentById(UpdateDepartmentRequest request)
+        public APIResponse UpdateDepartmentById([FromForm] UpdateDepartmentRequest request)
         {
             try
             {

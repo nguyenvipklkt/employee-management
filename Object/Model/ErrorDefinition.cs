@@ -11,6 +11,6 @@ namespace Object.Model
         public int ErrorDefinitionId { get; set; } // Số tự tăng
         public string ErrorCode { get; set; } = string.Empty; // Mã lỗi
         public string ErrorName { get; set; } = string.Empty; // Tên lỗi
-        public string Description { get; set; } = string.Empty; // mô tả
+        public string? Description { get; set; } // mô tả
     }
 }

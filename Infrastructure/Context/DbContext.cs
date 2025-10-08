@@ -28,7 +28,6 @@ namespace Infrastructure.Context
                 base.OnModelCreating(modelBuilder);
                 modelBuilder.SeedUser();
                 modelBuilder.SeedRole();
-                modelBuilder.SeedFunction();
             }
             catch (Exception ex)
             {

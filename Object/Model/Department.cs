@@ -12,6 +12,6 @@ namespace Object.Model
         public string DepartmentName { get; set; } = string.Empty; // Tên cơ sở
         public string DepartmentAddress { get; set; } = string.Empty; // Địa chỉ
         public int? ManagerId { get; set; } // Id quản lý
-        public string? DepartmentPhoto { get; set; } = string.Empty; // Ảnh cơ sở
+        public string DepartmentPhoto { get; set; } = string.Empty; // Ảnh cơ sở
     }
 }

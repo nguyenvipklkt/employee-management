@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoreValidation.Requests.Department;
+using CoreValidation.Requests.Role;
 using Object.Dto;
 using Object.Model;
 
@@ -11,7 +12,8 @@ namespace Service.ServiceRegistration
         {
             CreateMap<User, UserDto>();
             CreateMap<Department, DepartmentDto>();
-            CreateMap<Department, AddDepartmentRequest>();
+            CreateMap<Department, AddDepartmentRequest>().ReverseMap();
+            CreateMap<Role, AddRoleRequest>().ReverseMap();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Common.Common;
 using Common.Enum;
 using Common.Enum.ErrorEnum;
+using Common.Enum.RoleEnum;
 using CoreValidation.Requests.Authentication;
 using Helper.BCryptHelper;
 using Helper.EmailHelper;
@@ -19,7 +20,7 @@ namespace Service.Service.Authentication
     {
         UserDto Login(Login request, string ipAddress);
         UserDto Register(Register request);
-        User VerifyCode(VerifyCode request);
+        UserDto VerifyCode(VerifyCode request);
         Task<bool> SendEmail(string email);
         UserDto RefreshAccessToken(RefreshRequestToken request, int userId);
     }
@@ -115,7 +116,7 @@ namespace Service.Service.Authentication
                     Email = request.Email,
                     Password = BCryptHelper.HashPassword(request.Password),
                     IsActive = 0,
-                    RoleId = 2,
+                    RoleCode = RoleEnum.STAFF,
                     CreateAt = DateTime.UtcNow,
                 };
                 _baseUserCommand.Create(user);
@@ -130,7 +131,7 @@ namespace Service.Service.Authentication
             }
         }
 
-        public User VerifyCode(VerifyCode request)
+        public UserDto VerifyCode(VerifyCode request)
         {
             try
             {
@@ -181,8 +182,9 @@ namespace Service.Service.Authentication
 
                 user.IsActive = 1;
                 _baseUserCommand.UpdateByEntity(user);
-
-                return user;
+                var userDto = new UserDto();
+                userDto = _mapper.Map<UserDto>(user);
+                return userDto;
             }
             catch (Exception ex)
             {

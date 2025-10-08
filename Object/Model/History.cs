@@ -12,9 +12,9 @@ namespace Object.Model
         public int MaterialIdList { get; set; } // Nguyên liệu được xuất/nhập {1, 2, 3, ...}
         public float TotalPrice { get; set; } // Tổng tiền xuất/nhập
         public DateTime ImportDate { get; set; } // Ngày xuất/nhập hàng
-        public string Description { get; set; } = string.Empty; // Ghi chú thêm
+        public string? Description { get; set; } // Ghi chú thêm
         public string CreatedBy { get; set; } = string.Empty; // Người thực hiện
         public string HistoryType { get; set; } = string.Empty; // Loại nhập/xuất (I,E)
-        public int DepartmentId { get; set; } // Mã đơn vị nhập
+        public int DepartmentId { get; set; } // Mã cơ sở giao dịch
     }
 }

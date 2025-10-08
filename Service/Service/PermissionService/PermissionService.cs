@@ -11,8 +11,8 @@ namespace Service.Service.PermissionService
 {
     public interface IPermissionService
     {
-        long GrantPermission(int grantorUserId, GrantPermissionRequest request);
-        long RevokePermission(int grantorUserId, RevokePermissionRequest request);
+        bool GrantPermission(int grantorUserId, GrantPermissionRequest request);
+        bool RevokePermission(int grantorUserId, RevokePermissionRequest request);
         List<FunctionDto> GetPermissionsOfUser(int targetUserId);
         List<FunctionDto> GetFunctionsUserCanGrant(int grantorUserId);
     }
@@ -30,7 +30,7 @@ namespace Service.Service.PermissionService
             _functionCommand = functionCommand;
         }
 
-        public long GrantPermission(int grantorUserId, GrantPermissionRequest request)
+        public bool GrantPermission(int grantorUserId, GrantPermissionRequest request)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Service.Service.PermissionService
                     }
                 }
 
-                return GenericError.SUCCESS;
+                return true;
             }
             catch (Exception ex)
             {
@@ -73,7 +73,7 @@ namespace Service.Service.PermissionService
             }
         }
 
-        public long RevokePermission(int grantorUserId, RevokePermissionRequest request)
+        public bool RevokePermission(int grantorUserId, RevokePermissionRequest request)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace Service.Service.PermissionService
                     _userFunctionCommand.UpdateByEntity(userFunction);
                 }
 
-                return GenericError.SUCCESS;
+                return true;
             }
             catch (Exception ex)
             {

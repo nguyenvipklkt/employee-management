@@ -38,7 +38,19 @@ namespace RMAPI.Controllers.UserController
         }
 
         [HttpGet]
-        [Route("search-managers-by-name")]
-        [HasPermission("SEARCH_MANAGER_BY_NAME")]
+        [Route("search-user-by-name")]
+        [HasPermission("SEARCH_USER_BY_NAME")]
+        public APIResponse SearchUserByName([FromQuery] string name)
+        {
+            try
+            {
+                var res = _userService.SearchUserByName(UserId, name);
+                return new APIResponse { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
     }
 }

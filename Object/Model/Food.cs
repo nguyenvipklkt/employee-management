@@ -10,9 +10,9 @@ namespace Object.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FoodId { get; set; } // Mã món ăn
         public string Name { get; set; } = string.Empty; // Tên món ăn
-        public string Description { get; set; } = string.Empty; // Mô tả món ăn
-        public float Price { get; set; } // Giá món ăn
+        public string? Description { get; set; } // Mô tả món ăn
+        public long Price { get; set; } // Giá món ăn
         public string Unit { get; set; } = string.Empty; // Đơn vị tính
-        public string ImageUrl { get; set; } = string.Empty; // Ảnh món ăn
+        public string? ImageUrl { get; set; } // Ảnh món ăn
     }
 }

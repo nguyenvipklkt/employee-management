@@ -9,7 +9,7 @@ namespace Object.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TransactionId { get; set; } // Mã giao dịch
-        public int TranTypeId { get; set; } // Mã loại giao dịch
+        public string TranType { get; set; } = string.Empty; // Loại giao dịch
         public float Amount { get; set; } // Số lượng cần tăng/giảm
         public string TranType { get; set; } = string.Empty; // Tăng/Giảm  (C,D)
         public int RelatedEntityId { get; set; } // Mã item cần tăng/giảm

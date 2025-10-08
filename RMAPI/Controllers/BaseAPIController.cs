@@ -46,13 +46,13 @@ namespace RMAPI.Controllers
             if (ex.GetType().Name == "ValidateError")
             {
                 response.Code = "ValidateError";
-                response.Message = "Failed";
+                response.Message = "Thất bại";
                 return response;
             }
             else if (ex.GetType().Name == "SystemError")
             {
                 response.Code = "SystemError";
-                response.Message = "Failed";
+                response.Message = "Thất bại";
                 return response;
             }
             return response;

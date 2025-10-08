@@ -14,7 +14,7 @@ namespace Object.Model
         public DateTime ExpiresAt { get; set; } // Hạn dùng
         public string CreatedByIp { get; set; } = string.Empty; // IP đăng nhập
         public DateTime RevokedAt { get; set; } // Thu hồi chưa
-        public string ReplacedByToken { get; set; } = string.Empty; // Nếu bị thay thì bị thay bởi token nào
+        public string? ReplacedByToken { get; set; } // Nếu bị thay thì bị thay bởi token nào
         public int IsActive { get; set; } // Token còn hợp lệ không
     }
 }

@@ -11,6 +11,6 @@ namespace Object.Model
         public int MaterialId { get; set; } // Mã nguyên liệu
         public string Name { get; set; } = string.Empty; // Tên nguyên liệu
         public string Unit { get; set; } = string.Empty; // Đơn vị tính
-        public float Price { get; set; } // Giá nhập
+        public long Price { get; set; } // Giá nhập
     }
 }

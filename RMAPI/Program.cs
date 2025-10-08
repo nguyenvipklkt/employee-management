@@ -3,6 +3,7 @@ using FluentValidation;
 using Helper.EmailHelper;
 using Helper.NLog;
 using Infrastructure.Context;
+using Infrastructure.Seeder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -125,6 +126,10 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Seed functions from Excel
+var env = app.Environment;
+FunctionSeeder.SeedFunctionsFromExcel(new SqlConnection(ConfigApp.DBConnection), Path.Combine(env.WebRootPath, "functions", "Functions.xlsx"));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

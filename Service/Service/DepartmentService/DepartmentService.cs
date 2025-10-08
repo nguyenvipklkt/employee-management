@@ -12,11 +12,11 @@ namespace Service.Service.DepartmentService
     public interface IDepartmentService
     {
         List<DepartmentDto> GetAllDepartments();
-        Task<long> AddDepartment(AddDepartmentRequest request, int userId);
-        long GrantManagerToDepartment(int departmentId, int managerId, int userId);
-        long RevokeManagerFromDepartment(int departmentId, int userId);
-        Task<long> UpdateDepartmentById(UpdateDepartmentRequest request, int userId);
-        long DeleteDepartmentById(int departmentId);
+        Task<bool> AddDepartment(AddDepartmentRequest request, int userId);
+        bool GrantManagerToDepartment(int departmentId, int managerId, int userId);
+        bool RevokeManagerFromDepartment(int departmentId, int userId);
+        Task<bool> UpdateDepartmentById(UpdateDepartmentRequest request, int userId);
+        bool DeleteDepartmentById(int departmentId);
     }
 
     public class DepartmentService : IDepartmentService
@@ -78,7 +78,7 @@ namespace Service.Service.DepartmentService
             }
         }
 
-        public async Task<long> AddDepartment(AddDepartmentRequest request, int userId)
+        public async Task<bool> AddDepartment(AddDepartmentRequest request, int userId)
         {
             try
             {
@@ -88,21 +88,14 @@ namespace Service.Service.DepartmentService
                 newDepartment.CreateBy = userId;
                 if (request.Photo != null)
                 {
-                    var safeName = request.DepartmentName
-                        .Replace(" ", "_")
-                        .Replace("/", "_")
-                        .Replace("\\", "_");
-
-                    var fileName = $"{safeName}_{DateTime.Now:yyyyMMdd_HHmmss}";
-
-                    var relativePath = await _fileHelper.SaveAsync(request.Photo, fileName, "departments");
+                    var relativePath = await _fileHelper.SaveAsync(request.Photo, "departments");
 
                     // Ghi đường dẫn vào DB
                     newDepartment.DepartmentPhoto = relativePath;
                 }
 
                 _baseDepartmentCommand.Create(newDepartment);
-                return GenericError.SUCCESS;
+                return true;
             }
             catch (Exception ex)
             {
@@ -111,7 +104,7 @@ namespace Service.Service.DepartmentService
             }
         }
 
-        public long GrantManagerToDepartment(int departmentId, int managerId, int userId)
+        public bool GrantManagerToDepartment(int departmentId, int managerId, int userId)
         {
             try
             {
@@ -124,7 +117,7 @@ namespace Service.Service.DepartmentService
                 department.UpdateAt = DateTime.Now;
                 department.UpdateBy = userId;
                 _baseDepartmentCommand.UpdateByEntity(department);
-                return GenericError.SUCCESS;
+                return true;
             }
             catch (Exception ex)
             {
@@ -133,7 +126,7 @@ namespace Service.Service.DepartmentService
             }
         }
 
-        public long RevokeManagerFromDepartment(int departmentId, int userId)
+        public bool RevokeManagerFromDepartment(int departmentId, int userId)
         {
             try
             {
@@ -146,7 +139,7 @@ namespace Service.Service.DepartmentService
                 department.UpdateAt = DateTime.Now;
                 department.UpdateBy = userId;
                 _baseDepartmentCommand.UpdateByEntity(department);
-                return GenericError.SUCCESS;
+                return true;
             }
             catch (Exception ex)
             {
@@ -155,7 +148,7 @@ namespace Service.Service.DepartmentService
             }
         }
 
-        public async Task<long> UpdateDepartmentById(UpdateDepartmentRequest request, int userId)
+        public async Task<bool> UpdateDepartmentById(UpdateDepartmentRequest request, int userId)
         {
             try
             {
@@ -170,20 +163,13 @@ namespace Service.Service.DepartmentService
                 department.UpdateBy = userId;
                 if (request.Photo != null)
                 {
-                    var safeName = request.DepartmentName
-                        .Replace(" ", "_")
-                        .Replace("/", "_")
-                        .Replace("\\", "_");
-
-                    var fileName = $"{safeName}_{DateTime.Now:yyyyMMdd_HHmmss}";
-
-                    var relativePath = await _fileHelper.SaveAsync(request.Photo, fileName, "departments");
+                    var relativePath = await _fileHelper.SaveAsync(request.Photo, "departments");
 
                     // Ghi đường dẫn vào DB
                     department.DepartmentPhoto = relativePath;
                 }
                 _baseDepartmentCommand.UpdateByEntity(department);
-                return GenericError.SUCCESS;
+                return true;
             }
             catch (Exception ex)
             {
@@ -192,7 +178,7 @@ namespace Service.Service.DepartmentService
             }
         }
 
-        public long DeleteDepartmentById(int departmentId)
+        public bool DeleteDepartmentById(int departmentId)
         {
             try
             {
@@ -203,7 +189,7 @@ namespace Service.Service.DepartmentService
                 }
                 department.IsDeleted = true;
                 _baseDepartmentCommand.UpdateByEntity(department);
-                return GenericError.SUCCESS;
+                return true;
             }
             catch (Exception ex)
             {

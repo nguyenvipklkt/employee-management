@@ -21,39 +21,24 @@ namespace RMAPI.Middleware
 
             // 3. Check theo Role
             const string roleSql = @"
-                SELECT r.FunctionIdList
+                SELECT r.FunctionCodeList
                 FROM [User] u
-                JOIN [Role] r ON u.RoleId = r.RoleId
+                JOIN [Role] r ON u.RoleCode = r.RoleCode
                 WHERE u.UserId = @UserId AND u.IsDeleted = 0 AND r.IsDeleted = 0";
 
-            var functionIdListRaw = await baseQuery.QueryFirstOrDefaultAsync<string?>(roleSql, new { UserId = userId });
+            var functionCodeListRaw = await baseQuery.QueryFirstOrDefaultAsync<string?>(roleSql, new { UserId = userId });
 
-            if (!string.IsNullOrWhiteSpace(functionIdListRaw))
+            if (!string.IsNullOrWhiteSpace(functionCodeListRaw))
             {
-                var functionIds = functionIdListRaw
-                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(id => int.Parse(id.Trim()))
-                    .ToList();
-
-                if (functionIds.Any())
-                {
-                    const string getFunctionCodesSql = @"
-                        SELECT FunctionCode
-                        FROM [Function]
-                        WHERE FunctionId IN @Ids AND IsDeleted = 0";
-
-                    var functionCodes = await baseQuery.QueryAsync<string>(getFunctionCodesSql, new { Ids = functionIds }) ?? new List<string>();
-                    if (functionCodes.Contains(permission))
-                        return true;
-                }
+                if (functionCodeListRaw.Contains(permission))
+                    return true;
             }
 
             // 4. Check theo quyền riêng (UserFunction)
             const string userFunctionSql = @"
-                SELECT f.FunctionCode
-                FROM [UserFunction] uf
-                JOIN [Function] f ON uf.FunctionId = f.FunctionId
-                WHERE uf.UserId = @UserId AND uf.IsDeleted = 0 AND f.IsDeleted = 0";
+                SELECT FunctionCode
+                FROM [UserFunction]
+                WHERE UserId = @UserId AND IsDeleted = 0";
 
             var userFunctionCodes = await baseQuery.QueryAsync<string>(userFunctionSql, new { UserId = userId }) ?? new List<string>();
 
