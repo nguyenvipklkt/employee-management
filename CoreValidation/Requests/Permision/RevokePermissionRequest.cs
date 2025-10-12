@@ -3,6 +3,6 @@
     public class RevokePermissionRequest
     {
         public int TargetUserId { get; set; }
-        public int FunctionId { get; set; }
+        public string FunctionCode { get; set; } = string.Empty;
     }
 }

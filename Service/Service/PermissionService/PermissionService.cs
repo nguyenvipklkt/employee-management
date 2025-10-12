@@ -1,11 +1,9 @@
-﻿using Common.Enum.ErrorEnum;
-using CoreValidation.Requests.Authentication;
+﻿using CoreValidation.Requests.Authentication;
 using CoreValidation.Requests.Permision;
 using Helper.NLog;
 using Infrastructure.Repositories;
 using Object.Dto;
 using Object.Model;
-using static Dapper.SqlMapper;
 
 namespace Service.Service.PermissionService
 {
@@ -35,20 +33,20 @@ namespace Service.Service.PermissionService
             try
             {
                 // Lấy danh sách functionId mà người gán được phép gán
-                var grantableFunctionIds = GetFunctionsUserCanGrant(grantorUserId)
-                                           .Select(f => f.FunctionId)
+                var grantableFunctionCodes = GetFunctionsUserCanGrant(grantorUserId)
+                                           .Select(f => f.FunctionCode)
                                            .ToHashSet();
 
-                foreach (var functionId in request.FunctionIds)
+                foreach (var functionCode in request.FunctionCodes)
                 {
                     // Nếu không có quyền thì skip
-                    if (!grantableFunctionIds.Contains(functionId))
+                    if (!grantableFunctionCodes.Contains(functionCode))
                         continue;
 
                     // Nếu đã có quyền rồi thì skip
                     var exists = _userFunctionCommand.FindByCondition(x =>
                         x.UserId == request.TargetUserId &&
-                        x.FunctionId == functionId
+                        x.FunctionCode == functionCode
                     ).Any();
 
                     if (!exists)
@@ -56,7 +54,7 @@ namespace Service.Service.PermissionService
                         var uf = new UserFunction
                         {
                             UserId = request.TargetUserId,
-                            FunctionId = functionId,
+                            FunctionCode = functionCode,
                             GrantorId = grantorUserId,
                             GrantAt = DateTime.UtcNow
                         };
@@ -79,7 +77,7 @@ namespace Service.Service.PermissionService
             {
                 var userFunction = _userFunctionCommand.FindByCondition(x =>
                                         x.UserId == request.TargetUserId &&
-                                        x.FunctionId == request.FunctionId
+                                        x.FunctionCode == request.FunctionCode
                                     ).FirstOrDefault();
 
                 if (userFunction != null)
@@ -104,11 +102,11 @@ namespace Service.Service.PermissionService
         {
             try
             {
-                var functionIds = _userFunctionCommand.FindByCondition(x => x.UserId == targetUserId)
-                                                      .Select(x => x.FunctionId)
+                var functionCodes = _userFunctionCommand.FindByCondition(x => x.UserId == targetUserId)
+                                                      .Select(x => x.FunctionCode)
                                                       .ToList();
 
-                var functions = _functionCommand.FindByCondition(f => functionIds.Contains(f.FunctionId))
+                var functions = _functionCommand.FindByCondition(f => functionCodes.Contains(f.FunctionCode))
                                                 .Select(f => new FunctionDto
                                                 {
                                                     FunctionId = f.FunctionId,

@@ -7,6 +7,7 @@ using Service.Service.Authentication;
 using Service.Service.DepartmentService;
 using Service.Service.PermissionService;
 using Service.Service.RoleService;
+using Service.Service.TemplateService;
 using Service.Service.UserService;
 
 namespace Service.ServiceRegistration
@@ -24,6 +25,7 @@ namespace Service.ServiceRegistration
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ITemplateService, TemplateService>();
 
             // Đăng ký class
             services.AddScoped<ConfigJWT>();
