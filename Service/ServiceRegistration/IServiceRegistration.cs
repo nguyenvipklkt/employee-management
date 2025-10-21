@@ -9,6 +9,7 @@ using Service.Service.PermissionService;
 using Service.Service.RoleService;
 using Service.Service.TemplateService;
 using Service.Service.UserService;
+using Service.Service.WarehouseService;
 
 namespace Service.ServiceRegistration
 {
@@ -26,6 +27,7 @@ namespace Service.ServiceRegistration
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITemplateService, TemplateService>();
+            services.AddScoped<IWarehouseService, WarehouseService>();
 
             // Đăng ký class
             services.AddScoped<ConfigJWT>();

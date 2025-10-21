@@ -20,6 +20,7 @@ namespace Infrastructure.Context
         public DbSet<Department> Department { get; set; }
         public DbSet<ErrorDefinition> ErrorDefinition { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
+        public DbSet<Warehouse> Warehouse { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

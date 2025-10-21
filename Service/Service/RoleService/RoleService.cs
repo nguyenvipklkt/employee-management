@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Common.Enum;
 using Common.Enum.ErrorEnum;
+using Common.Enum.RoleEnum;
 using CoreValidation.Requests.Role;
 using Helper.NLog;
 using Infrastructure.Repositories;
+using Object.Dto;
 using Object.Model;
 
 namespace Service.Service.RoleService
@@ -15,11 +18,13 @@ namespace Service.Service.RoleService
     public class RoleService : IRoleService
     {
         private readonly IBaseCommand<Role> _baseRoleCommand;
+        private readonly IBaseCommand<User> _baseUserCommand;
         private readonly IMapper _mapper;
 
-        public RoleService(IBaseCommand<Role> baseRoleCommand, IMapper mapper)
+        public RoleService(IBaseCommand<Role> baseRoleCommand, IBaseCommand<User> baseUserCommand, IMapper mapper)
         {
             _baseRoleCommand = baseRoleCommand;
+            _baseUserCommand = baseUserCommand;
             _mapper = mapper;
         }
 

@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\functions\" />
     <Folder Include="wwwroot\templates\" />
   </ItemGroup>
 

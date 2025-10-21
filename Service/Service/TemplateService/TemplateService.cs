@@ -47,13 +47,13 @@ namespace Service.Service.TemplateService
                 {
                     var ws = package.Workbook.Worksheets[0];
 
-                    ws.Cells["B3"].Value = department.DepartmentName;
-                    ws.Cells["B4"].Value = department.DepartmentAddress;
-                    ws.Cells["B5"].Value = department.DepartmentId;
+                    ws.Cells["B4"].Value = department.DepartmentName;
+                    ws.Cells["B5"].Value = department.DepartmentAddress;
+                    ws.Cells["B6"].Value = department.DepartmentId;
 
-                    ws.Cells["B6"].Value = warehouse.Name;
-                    ws.Cells["B7"].Value = warehouse.WarehouseId;
-                    ws.Cells["B8"].Value = DateTime.Now.ToString("dd/MM/yyyy");
+                    ws.Cells["B7"].Value = warehouse.Name;
+                    ws.Cells["B8"].Value = warehouse.WarehouseId;
+                    ws.Cells["B9"].Value = DateTime.Now.ToString("dd/MM/yyyy");
 
                     // Lưu file mới
                     package.SaveAs(new FileInfo(outputPath));
@@ -65,6 +65,11 @@ namespace Service.Service.TemplateService
 
                 throw;
             }
+        }
+
+        public bool ImportTemplateToWarehouse() 
+        {
+            return true;
         }
 
     }

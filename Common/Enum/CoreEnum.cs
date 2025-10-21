@@ -7,5 +7,8 @@
             { 0, "Không hoạt động" },
             { 1, "Hoạt động" }
         };
+
+        public const int TRUE = 1;
+        public const int FALSE = 0;
     }
 }

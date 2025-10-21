@@ -1,73 +1,61 @@
 ﻿using AutoMapper;
-using Common.Enum.ErrorEnum;
+using Common.Enum;
 using CoreValidation.Requests.Department;
 using Helper.FileHelper;
 using Helper.NLog;
 using Infrastructure.Repositories;
 using Object.Dto;
 using Object.Model;
+using Service.Service.RoleService;
 
 namespace Service.Service.DepartmentService
 {
     public interface IDepartmentService
     {
-        List<DepartmentDto> GetAllDepartments();
+        List<DepartmentDto> GetAllDepartments(int userId);
         Task<bool> AddDepartment(AddDepartmentRequest request, int userId);
-        bool GrantManagerToDepartment(int departmentId, int managerId, int userId);
-        bool RevokeManagerFromDepartment(int departmentId, int userId);
         Task<bool> UpdateDepartmentById(UpdateDepartmentRequest request, int userId);
-        bool DeleteDepartmentById(int departmentId);
+        bool DeleteDepartmentById(int userId, int departmentId);
     }
 
     public class DepartmentService : IDepartmentService
     {
         private readonly IBaseCommand<Department> _baseDepartmentCommand;
         private readonly IBaseCommand<User> _baseUserCommand;
+        private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
         private readonly IFileHelper _fileHelper;
 
-        public DepartmentService(IBaseCommand<Department> baseDepartmentCommand, IBaseCommand<User> baseUserCommand, IMapper mapper, IFileHelper fileHelper)
+        public DepartmentService(IBaseCommand<Department> baseDepartmentCommand, IBaseCommand<User> baseUserCommand, IRoleService roleService, IMapper mapper, IFileHelper fileHelper)
         {
             _baseDepartmentCommand = baseDepartmentCommand;
+            _roleService = roleService;
             _mapper = mapper;
             _baseUserCommand = baseUserCommand;
             _fileHelper = fileHelper;
         }
 
-        public List<DepartmentDto> GetAllDepartments()
+        public List<DepartmentDto> GetAllDepartments(int userId)
         {
             try
             {
                 List<DepartmentDto> departmentDtos = new List<DepartmentDto>();
-                var departments = _baseDepartmentCommand.FindByCondition(x => true).ToList();
-                if (departments == null || departments.Count == 0)
+                var user = _baseUserCommand.FindByCondition(x => x.UserId == userId && x.IsDeleted == false).FirstOrDefault();
+                if (user == null)
+                    throw new Exception("Người dùng không tồn tại");
+                if (user.IsSuperAdmin == 1)
                 {
-                    return new List<DepartmentDto>();
+                    var departments = _baseDepartmentCommand.FindByCondition(x => x.IsDeleted == false).ToList();
+                    departmentDtos = _mapper.Map<List<DepartmentDto>>(departments);
                 }
-                foreach (var dept in departments)
+                else if (user.RoleCode == "MANAGER")
                 {
-                    if (dept.ManagerId != null && dept.ManagerId != -1)
-                    {
-                        DepartmentDto dto = new DepartmentDto();
-                        _mapper.Map(dept, dto);
-                        var manager = _baseUserCommand.FindByCondition(x => x.UserId == dept.ManagerId).FirstOrDefault();
-                        if (manager != null)
-                        {
-                            dto.UserName = manager.Name;
-                        }
-                        else
-                        {
-                            dto.UserName = "Chưa có quản lý";
-                        }
-                        departmentDtos.Add(dto);
-                    }
-                    else
-                    {
-                        DepartmentDto dto = new DepartmentDto();
-                        _mapper.Map(dept, dto);
-                        dto.UserName = "Chưa có quản lý";
-                        departmentDtos.Add(dto);
-                    }
+                    var departments = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == user.DepartmentId && x.IsDeleted == false).ToList();
+                    departmentDtos = _mapper.Map<List<DepartmentDto>>(departments);
+                }
+                else
+                {
+                    throw new Exception("Bạn không có quyền xem danh sách cơ sở");
                 }
                 return departmentDtos;
             }
@@ -104,55 +92,11 @@ namespace Service.Service.DepartmentService
             }
         }
 
-        public bool GrantManagerToDepartment(int departmentId, int managerId, int userId)
-        {
-            try
-            {
-                var department = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == departmentId).FirstOrDefault();
-                if (department == null)
-                {
-                    throw new Exception("Không tìm thấy cơ sở này."); // Department not found
-                }
-                department.ManagerId = managerId;
-                department.UpdateAt = DateTime.Now;
-                department.UpdateBy = userId;
-                _baseDepartmentCommand.UpdateByEntity(department);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                BaseNLog.logger.Error(ex);
-                throw;
-            }
-        }
-
-        public bool RevokeManagerFromDepartment(int departmentId, int userId)
-        {
-            try
-            {
-                var department = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == departmentId).FirstOrDefault();
-                if (department == null)
-                {
-                    throw new Exception("Không tìm thấy cơ sở này.");
-                }
-                department.ManagerId = -1;
-                department.UpdateAt = DateTime.Now;
-                department.UpdateBy = userId;
-                _baseDepartmentCommand.UpdateByEntity(department);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                BaseNLog.logger.Error(ex);
-                throw;
-            }
-        }
-
         public async Task<bool> UpdateDepartmentById(UpdateDepartmentRequest request, int userId)
         {
             try
             {
-                var department = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == request.DepartmentId).FirstOrDefault();
+                var department = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == request.DepartmentId && x.IsDeleted == false).FirstOrDefault();
                 if (department == null)
                 {
                     throw new Exception("Không tìm thấy cơ sở này.");
@@ -178,16 +122,18 @@ namespace Service.Service.DepartmentService
             }
         }
 
-        public bool DeleteDepartmentById(int departmentId)
+        public bool DeleteDepartmentById(int userId,int departmentId)
         {
             try
             {
-                var department = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == departmentId).FirstOrDefault();
+                var department = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == departmentId && x.IsDeleted == false).FirstOrDefault();
                 if (department == null)
                 {
                     throw new Exception("Không tìm thấy cơ sở này.");
                 }
                 department.IsDeleted = true;
+                department.UpdateBy = userId;
+                department.UpdateAt = DateTime.Now;
                 _baseDepartmentCommand.UpdateByEntity(department);
                 return true;
             }

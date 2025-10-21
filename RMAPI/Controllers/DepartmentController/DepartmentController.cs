@@ -29,7 +29,7 @@ namespace RMAPI.Controllers.DepartmentController
         {
             try
             {
-                var res = _departmentService.GetAllDepartments();
+                var res = _departmentService.GetAllDepartments(UserId);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)
@@ -46,38 +46,6 @@ namespace RMAPI.Controllers.DepartmentController
             try
             {
                 var res = _departmentService.AddDepartment(request,UserId);
-                return new APIResponse { Data = res };
-            }
-            catch (Exception ex)
-            {
-                return NG(ex);
-            }
-        }
-
-        [HttpPost]
-        [Route("grant-manager-to-department")]
-        [HasPermission("GRANT_MANAGER_TO_DEPARTMENT")]
-        public APIResponse GrantManagerToDepartment(int departmentId, int managerId)
-        {
-            try
-            {
-                var res = _departmentService.GrantManagerToDepartment(departmentId, managerId, UserId);
-                return new APIResponse { Data = res };
-            }
-            catch (Exception ex)
-            {
-                return NG(ex);
-            }
-        }
-
-        [HttpPost]
-        [Route("revoke-manager-from-department")]
-        [HasPermission("REVOKE_MANAGER_FROM_DEPARTMENT")]
-        public APIResponse RevokeManagerFromDepartment(int departmentId)
-        {
-            try
-            {
-                var res = _departmentService.RevokeManagerFromDepartment(departmentId, UserId);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)
@@ -109,7 +77,7 @@ namespace RMAPI.Controllers.DepartmentController
         {
             try
             {
-                var res = _departmentService.DeleteDepartmentById(departmentId);
+                var res = _departmentService.DeleteDepartmentById(UserId, departmentId);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)
