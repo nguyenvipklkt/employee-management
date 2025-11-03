@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
-using Common.Enum;
-using Common.Enum.ErrorEnum;
-using Common.Enum.RoleEnum;
 using CoreValidation.Requests.Role;
 using Helper.NLog;
 using Infrastructure.Repositories;
-using Object.Dto;
 using Object.Model;
 
 namespace Service.Service.RoleService
@@ -13,6 +9,7 @@ namespace Service.Service.RoleService
     public interface IRoleService
     {
         bool AddRole(int userId, AddRoleRequest request);
+        string GetRoleCode(int userId);
     }
 
     public class RoleService : IRoleService
@@ -37,6 +34,28 @@ namespace Service.Service.RoleService
                 newRole.CreateBy = userId;
                 var createdRole = _baseRoleCommand.Create(newRole);
                 return true;
+            }
+            catch (Exception ex)
+            {
+                BaseNLog.logger.Error(ex);
+                throw;
+            }
+        }
+
+        public string GetRoleCode(int userId)
+        {
+            try
+            {
+                var  user = _baseUserCommand.FindByCondition(x => x.UserId == userId).FirstOrDefault();
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+                if (user.IsSuperAdmin == 1)
+                {
+                    return "SUPPERADMIN";
+                }
+                return user.RoleCode;
             }
             catch (Exception ex)
             {

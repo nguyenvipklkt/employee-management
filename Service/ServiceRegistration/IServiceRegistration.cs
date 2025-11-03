@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Service.Config;
 using Service.Service.Authentication;
 using Service.Service.DepartmentService;
+using Service.Service.FoodService;
 using Service.Service.PermissionService;
 using Service.Service.RoleService;
 using Service.Service.TemplateService;
@@ -28,6 +29,7 @@ namespace Service.ServiceRegistration
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITemplateService, TemplateService>();
             services.AddScoped<IWarehouseService, WarehouseService>();
+            services.AddScoped<IFoodService, FoodService>();
 
             // Đăng ký class
             services.AddScoped<ConfigJWT>();

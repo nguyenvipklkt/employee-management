@@ -77,6 +77,9 @@ namespace Service.Service.WarehouseService
         {
             try
             {
+                var department = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == departmentId).FirstOrDefault();
+                if (department == null)
+                    throw new Exception("Cơ sở không tồn tại");
                 var newWarehouse = new Warehouse
                 {
                     Name = warehouseName,

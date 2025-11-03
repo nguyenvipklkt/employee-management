@@ -1,4 +1,5 @@
-﻿using CoreValidation.Requests.Warehouse;
+﻿using Common.Enum.RoleEnum;
+using CoreValidation.Requests.Warehouse;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,29 +47,46 @@ namespace RMAPI.Controllers.WarehouseController
             }
         }
 
-        //[HttpPost]
-        //[Route("import-template-to-warehouse")]
-        //[HasPermission("")]
-        //public APIResponse ImportTemplateToWarehouse()
-        //{
-        //    try
-        //    {
-        //        var res = _templateService
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return NG(ex);
-        //    }
-        //}
+        [HttpPost]
+        [Route("import-excel-to-warehouse")]
+        [HasPermission("")]
+        public APIResponse ImportExcelToWarehouse([FromForm] ImportExcel importExcel)
+        {
+            try
+            {
+                var res = _templateService.ImportExcelToWarehouse(UserId, importExcel.File);
+                return new APIResponse { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
 
         [HttpPost]
         [Route("add-warehouse")]
-        [HasPermission("")]
+        [HasPermission(FunctionEnum.ADD_WAREHOUSE)]
         public APIResponse AddWarehouse(AddWarehouseRequest request)
         {
             try
             {
                 var res = _warehouseService.AddWarehouse(UserId, request.WarehouseName, request.DepartmentId);
+                return new APIResponse { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("update-warehouse")]
+        [HasPermission(FunctionEnum.UPDATE_WAREHOUSE)]
+        public APIResponse UpdateWarehouse(UpdateWarehouseRequest request)
+        {
+            try
+            {
+                var res = _warehouseService.UpdateWarehouse(UserId, request.WarehouseId, request.WarehouseName, request.DepartmentId);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)

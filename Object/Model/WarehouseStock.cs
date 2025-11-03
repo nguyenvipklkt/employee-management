@@ -6,6 +6,8 @@ namespace Object.Model
 {
     public class WarehouseStock : BaseModel
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StockId { get; set; } // Mã liên kết kho
         public int WarehouseId { get; set; } // Mã kho
         public int MaterialId { get; set; } // Mã nguyên liệu

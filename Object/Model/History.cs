@@ -13,7 +13,6 @@ namespace Object.Model
         public float TotalPrice { get; set; } // Tổng tiền xuất/nhập
         public DateTime ImportDate { get; set; } // Ngày xuất/nhập hàng
         public string? Description { get; set; } // Ghi chú thêm
-        public string CreatedBy { get; set; } = string.Empty; // Người thực hiện
         public string HistoryType { get; set; } = string.Empty; // Loại nhập/xuất (I,E)
         public int DepartmentId { get; set; } // Mã cơ sở giao dịch
     }

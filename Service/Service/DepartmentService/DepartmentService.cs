@@ -98,9 +98,7 @@ namespace Service.Service.DepartmentService
             {
                 var department = _baseDepartmentCommand.FindByCondition(x => x.DepartmentId == request.DepartmentId && x.IsDeleted == false).FirstOrDefault();
                 if (department == null)
-                {
                     throw new Exception("Không tìm thấy cơ sở này.");
-                }
                 department.DepartmentName = request.DepartmentName;
                 department.DepartmentAddress = request.DepartmentAddress;
                 department.UpdateAt = DateTime.Now;

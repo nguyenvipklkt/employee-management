@@ -16,7 +16,7 @@ namespace RMAPI.Controllers.RoleController
     {
         private readonly IRoleService _roleService;
         private readonly IBaseQuery _baseQuery;
-        
+
         public RoleController(IRoleService roleService, IBaseQuery baseQuery)
         {
             _roleService = roleService;
@@ -31,6 +31,22 @@ namespace RMAPI.Controllers.RoleController
             try
             {
                 var res = _roleService.AddRole(UserId, request);
+                return new APIResponse { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-role")]
+        [HasPermission("")]
+        public async Task<APIResponse> GetRoleCode()
+        {
+            try
+            {
+                var res = _roleService.GetRoleCode(UserId);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)
