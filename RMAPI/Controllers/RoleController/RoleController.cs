@@ -42,7 +42,7 @@ namespace RMAPI.Controllers.RoleController
         [HttpGet]
         [Route("get-role")]
         [HasPermission("")]
-        public async Task<APIResponse> GetRoleCode()
+        public APIResponse GetRoleCode()
         {
             try
             {
