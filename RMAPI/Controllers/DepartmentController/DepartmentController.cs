@@ -38,6 +38,22 @@ namespace RMAPI.Controllers.DepartmentController
             }
         }
 
+        [HttpGet]
+        [Route("get-department-by-current-user")]
+        [HasPermission("VIEW_DEPARTMENT")]
+        public APIResponse GetDepartmentByCurrentUser()
+        {
+            try
+            {
+                var res = _departmentService.GetDepartmentByCurrentUser(UserId);
+                return new APIResponse { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
         [HttpPost]
         [Route("add-department")]
         [HasPermission("ADD_DEPARTMENT")]

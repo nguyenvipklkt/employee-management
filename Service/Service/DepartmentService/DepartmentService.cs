@@ -13,6 +13,7 @@ namespace Service.Service.DepartmentService
     public interface IDepartmentService
     {
         List<DepartmentDto> GetAllDepartments(int userId);
+        DepartmentDto GetDepartmentByCurrentUser(int userId);
         Task<bool> AddDepartment(AddDepartmentRequest request, int userId);
         Task<bool> UpdateDepartmentById(UpdateDepartmentRequest request, int userId);
         bool DeleteDepartmentById(int userId, int departmentId);
@@ -58,6 +59,25 @@ namespace Service.Service.DepartmentService
                     throw new Exception("Bạn không có quyền xem danh sách cơ sở");
                 }
                 return departmentDtos;
+            }
+            catch (Exception ex)
+            {
+                BaseNLog.logger.Error(ex);
+                throw;
+            }
+        }
+
+        public DepartmentDto GetDepartmentByCurrentUser(int userId)
+        {
+            try
+            {
+                DepartmentDto departmentDto = new DepartmentDto();
+                var user = _baseUserCommand.FindByCondition(x => x.UserId == userId && x.IsDeleted == false).FirstOrDefault();
+                if (user == null)
+                    throw new Exception("Người dùng không tồn tại");
+                var department = _baseDepartmentCommand.FindByCondition(x => x.IsDeleted == false && x.DepartmentId == user.DepartmentId).FirstOrDefault();
+                departmentDto = _mapper.Map<DepartmentDto>(department);
+                return departmentDto;
             }
             catch (Exception ex)
             {
