@@ -1,6 +1,0 @@
-@RMAPI_HostAddress = http://localhost:5185
-
-GET {{RMAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -17,22 +17,10 @@ namespace Infrastructure.Context
         public DbSet<Function> Function { get; set; }
         public DbSet<UserFunction> UserFunction { get; set; }
         public DbSet<OTP> OTP { get; set; }
-        public DbSet<Department> Department { get; set; }
         public DbSet<ErrorDefinition> ErrorDefinition { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
-        public DbSet<Warehouse> Warehouse { get; set; }
-        public DbSet<Food> Food { get; set; }
-        public DbSet<FoodMaterial> FoodMaterial { get; set; }
         public DbSet<FunctionGrantPermission> FunctionGrantPermission { get; set; }
-        public DbSet<History> History { get; set; }
-        public DbSet<Invoice> Invoice { get; set; }
-        public DbSet<InvoiceDetail> InvoiceDetail { get; set; }
-        public DbSet<Material> Material { get; set; }
-        public DbSet<OrderTable> OrderTable { get; set; }
-        public DbSet<Table> Table { get; set; }
-        public DbSet<Transaction> Transaction { get; set; }
         public DbSet<ObjType> ObjType { get; set; }
-        public DbSet<WarehouseStock> WarehouseStock { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
