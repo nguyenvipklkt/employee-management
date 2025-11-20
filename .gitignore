@@ -51,9 +51,7 @@ publish/
 .env.*
 
 # Docker files
-Dockerfile
 docker-compose.yml
-.docker/
 
 # OS-specific files
 .DS_Store
