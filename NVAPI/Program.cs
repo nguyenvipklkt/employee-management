@@ -1,4 +1,4 @@
-using CoreValidation.Requests.Authentication;
+﻿using CoreValidation.Requests.Authentication;
 using FluentValidation;
 using Helper.EmailHelper;
 using Helper.NLog;
@@ -49,17 +49,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddValidatorsFromAssemblyContaining<LoginValidation>();
 
-//setup logger
+// setup logger
 var baseDirectory = AppContext.BaseDirectory;
-var parentDirectory = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent;
-if (parentDirectory == null)
-{
-    throw new InvalidOperationException("Parent directory structure is not valid.");
-}
-string configPath = Path.Combine(parentDirectory.FullName, "ConfigLog", "nlog.config");
+var configPath = Path.Combine(baseDirectory, "ConfigLog", "nlog.config");
 
-string fixedPath = configPath.Replace("\\", "/");
-LogManager.Setup().LoadConfigurationFromFile(fixedPath);
+LogManager.Setup().LoadConfigurationFromFile(configPath);
 BaseNLog.logger.Info($"Run on Platform [{Environment.OSVersion.Platform}] - Debug version");
 
 //setup db
