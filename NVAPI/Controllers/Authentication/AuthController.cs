@@ -87,22 +87,5 @@ namespace NVAPI.Controllers.Authentication
                 return NG(ex);
             }
         }
-
-        [HttpPost]
-        [Route("refresh-token")]
-        public APIResponse RefreshToken([FromBody] RefreshRequestToken request)
-        {
-            try
-            {
-                var res = _userAuthentication.RefreshAccessToken(request, UserId);
-                return new APIResponse { Data = res, Message = "Tài khoản xác thực thành công!" };
-            }
-            catch (Exception ex)
-            {
-                return NG(ex);
-            }
-        }
-
-
     }
 }

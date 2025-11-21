@@ -3,7 +3,6 @@ using FluentValidation;
 using Helper.EmailHelper;
 using Helper.NLog;
 using Infrastructure.Context;
-using Infrastructure.Seeder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,6 @@ using NLog;
 using Object.Setting;
 using NVAPI.ConfigApp;
 using Service.ServiceRegistration;
-using Service.Worker;
 using System.Data;
 using System.Text;
 
@@ -61,10 +59,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(ConfigApp.DBConnection));
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(ConfigApp.DBConnection));
-
-// load error definitions to memory
-var errorService = new ErrorMem(new SqlConnection(ConfigApp.DBConnection));
-errorService.LoadErrorsToMemory();
 
 // Auto Mapper Configurations
 builder.Services.AddAutoMapper(typeof(MapperRegistraion));
@@ -123,7 +117,6 @@ var app = builder.Build();
 
 // Seed functions from Excel
 var env = app.Environment;
-FunctionSeeder.SeedFunctionsFromExcel(new SqlConnection(ConfigApp.DBConnection), Path.Combine(env.WebRootPath, "functions", "Functions.xlsx"));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -17,10 +17,6 @@ namespace Infrastructure.Context
         public DbSet<Function> Function { get; set; }
         public DbSet<UserFunction> UserFunction { get; set; }
         public DbSet<OTP> OTP { get; set; }
-        public DbSet<ErrorDefinition> ErrorDefinition { get; set; }
-        public DbSet<RefreshToken> RefreshToken { get; set; }
-        public DbSet<FunctionGrantPermission> FunctionGrantPermission { get; set; }
-        public DbSet<ObjType> ObjType { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

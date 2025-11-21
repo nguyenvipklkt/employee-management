@@ -56,28 +56,6 @@ namespace Service.Service.UserService
                         x.IsDeleted == false
                     ).ToList();
                 }
-                else if (currentUser.RoleCode == RoleEnum.MANAGER)
-                {
-                    var allowedRoles = new[] { RoleEnum.ACCOUNTANT, RoleEnum.WAREHOUSER, RoleEnum.PANTRYMAN, RoleEnum.STAFF };
-
-                    users = _baseUserCommand.FindByCondition(x =>
-                        x.Name.Contains(name) &&
-                        x.IsActive == 1 &&
-                        x.IsDeleted == false &&
-                        x.DepartmentId == currentUser.DepartmentId &&
-                        allowedRoles.Contains(x.RoleCode)
-                    ).ToList();
-                }
-                else if (currentUser.RoleCode == RoleEnum.ACCOUNTANT)
-                {
-                    users = _baseUserCommand.FindByCondition(x =>
-                        x.Name.Contains(name) &&
-                        x.IsActive == 1 &&
-                        x.IsDeleted == false &&
-                        x.DepartmentId == currentUser.DepartmentId &&
-                        x.RoleCode == RoleEnum.STAFF
-                    ).ToList();
-                }
                 else
                 {
                     throw new Exception("Bạn không có quyền tìm kiếm người dùng.");
