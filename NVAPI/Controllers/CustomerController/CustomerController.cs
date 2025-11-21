@@ -99,11 +99,11 @@ namespace NVAPI.Controllers.CustomerController
 
         [HttpPost]
         [Route("send-email-to-customers")]
-        public APIResponse SendEmailToCustomers(List<int> customerIdList, string content)
+        public APIResponse SendEmailToCustomers(SendEmailToCustomersRequest sendEmailToCustomersRequest)
         {
             try
             {
-                var res = _customerService.SendEmailToCustomers(customerIdList, content);
+                var res = _customerService.SendEmailToCustomers(sendEmailToCustomersRequest.CustomerIdList, sendEmailToCustomersRequest.Content);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)
