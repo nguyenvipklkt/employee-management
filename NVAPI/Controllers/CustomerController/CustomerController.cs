@@ -4,9 +4,9 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Object.Setting;
-using Service.Service.UserService;
+using Service.Service.CustomerService;
 
-namespace NVAPI.Controllers.RoleController
+namespace NVAPI.Controllers.CustomerController
 {
     [ApiController]
     [Route("api/role")]

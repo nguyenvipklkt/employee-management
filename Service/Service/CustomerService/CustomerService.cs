@@ -5,7 +5,7 @@ using Helper.NLog;
 using Infrastructure.Repositories;
 using Object.Model;
 
-namespace Service.Service.UserService
+namespace Service.Service.CustomerService
 {
     public interface ICustomerService
     {

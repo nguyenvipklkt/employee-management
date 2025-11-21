@@ -4,6 +4,7 @@ using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Config;
 using Service.Service.Authentication;
+using Service.Service.CustomerService;
 using Service.Service.UserService;
 
 namespace Service.ServiceRegistration
@@ -17,6 +18,7 @@ namespace Service.ServiceRegistration
             services.AddScoped(typeof(IBaseCommand<>), typeof(BaseCommand<>));
             services.AddScoped<IUserAuthentication, UserAuthentication>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICustomerService, CustomerService>();
 
             // Đăng ký class
             services.AddScoped<ConfigJWT>();
