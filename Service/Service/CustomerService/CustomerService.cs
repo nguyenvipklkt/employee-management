@@ -4,6 +4,7 @@ using Helper.EmailHelper;
 using Helper.NLog;
 using Infrastructure.Repositories;
 using Object.Model;
+using System.Globalization;
 
 namespace Service.Service.CustomerService
 {
@@ -11,8 +12,8 @@ namespace Service.Service.CustomerService
     {
         List<Customer> GetCustomerList();
         List<Customer> SearchCustomers(int UserId, string? name, string? email);
-        int AddCustomer(AddCustomerRequest request);
-        int UpdateCustomer(UpdateCustomerRequest request);
+        int AddCustomer(AddCustomerRequest request, int userId);
+        int UpdateCustomer(UpdateCustomerRequest request, int userId);
         int DeleteCustomer(int customerId);
         Task<string> SendEmailToCustomers(List<int> customerIdList, string content);
     }
@@ -68,11 +69,38 @@ namespace Service.Service.CustomerService
             }
         }
 
-        public int AddCustomer(AddCustomerRequest request)
+        public int AddCustomer(AddCustomerRequest request, int userId)
         {
             try
             {
-                var newCustomer = _mapper.Map<Customer>(request);
+                DateTime? dob = null;
+
+                if (!string.IsNullOrWhiteSpace(request.Dob))
+                {
+                    if (DateTime.TryParseExact(
+                            request.Dob,
+                            "dd/MM/yyyy",
+                            CultureInfo.InvariantCulture,
+                            DateTimeStyles.None,
+                            out DateTime parsedDob))
+                    {
+                        dob = parsedDob;
+                    }
+                    else
+                    {
+                        dob = null;
+                    }
+                }
+
+                var newCustomer = new Customer()
+                {
+                    Name = request.Name,
+                    Email = request.Email,
+                    Address = request.Address,
+                    Dob = dob,
+                    CreateBy = userId
+                };
+
                 _baseCustomerCommand.Create(newCustomer);
                 return 1;
             }
@@ -83,7 +111,8 @@ namespace Service.Service.CustomerService
             }
         }
 
-        public int UpdateCustomer(UpdateCustomerRequest request)
+
+        public int UpdateCustomer(UpdateCustomerRequest request, int userId)
         {
             try
             {
@@ -92,12 +121,36 @@ namespace Service.Service.CustomerService
                 {
                     throw new Exception("Khách hàng không tồn tại");
                 }
+                DateTime? dob = null;
+
+                if (!string.IsNullOrWhiteSpace(request.Dob))
+                {
+                    if (DateTime.TryParseExact(
+                            request.Dob,
+                            "dd/MM/yyyy",
+                            CultureInfo.InvariantCulture,
+                            DateTimeStyles.None,
+                            out DateTime parsedDob))
+                    {
+                        dob = parsedDob;
+                    }
+                    else
+                    {
+                        dob = null;
+                    }
+                }
+
                 existingCustomer.Name = request.Name;
                 existingCustomer.Email = request.Email;
-                existingCustomer.Dob = request.Dob;
                 existingCustomer.Address = request.Address;
+                existingCustomer.Dob = dob;
+                existingCustomer.UpdateBy = userId;
+                existingCustomer.UpdateAt = DateTime.Now;
+
+                // Lưu DB
                 _baseCustomerCommand.UpdateByEntity(existingCustomer);
-                return 1; // Success
+
+                return 1;
             }
             catch (Exception ex)
             {
@@ -105,6 +158,7 @@ namespace Service.Service.CustomerService
                 throw;
             }
         }
+
 
         public int DeleteCustomer(int customerId)
         {

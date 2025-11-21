@@ -57,7 +57,7 @@ namespace NVAPI.Controllers.CustomerController
             try
             {
                 ValidatorFunc.ValidateRequest(validator, request);
-                var res = _customerService.AddCustomer(request);
+                var res = _customerService.AddCustomer(request, UserId);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace NVAPI.Controllers.CustomerController
             try
             {
                 ValidatorFunc.ValidateRequest(validator, request);
-                var res = _customerService.UpdateCustomer(request);
+                var res = _customerService.UpdateCustomer(request, UserId);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)

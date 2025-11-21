@@ -8,7 +8,7 @@ namespace CoreValidation.Requests.Customer
         public int CustomerId { get; set; } // Mã khách hàng
         public string Name { get; set; } = string.Empty; // Tên khách hàng
         public string Email { get; set; } = string.Empty; // Email
-        public DateTime? Dob { get; set; } // Ngày sinh
+        public string? Dob { get; set; } // Ngày sinh
         public string? Address { get; set; } = string.Empty; // Địa chỉ
     }
 
