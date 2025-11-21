@@ -3,6 +3,7 @@ using CoreValidation.Requests.Customer;
 using Helper.EmailHelper;
 using Helper.NLog;
 using Infrastructure.Repositories;
+using Object.Dto;
 using Object.Model;
 using System.Globalization;
 
@@ -10,8 +11,8 @@ namespace Service.Service.CustomerService
 {
     public interface ICustomerService
     {
-        List<Customer> GetCustomerList();
-        List<Customer> SearchCustomers(int UserId, string? name, string? email);
+        List<CustomerDto> GetCustomerList();
+        List<CustomerDto> SearchCustomers(int UserId, string? name, string? email);
         int AddCustomer(AddCustomerRequest request, int userId);
         int UpdateCustomer(UpdateCustomerRequest request, int userId);
         int DeleteCustomer(int customerId);
@@ -33,12 +34,26 @@ namespace Service.Service.CustomerService
             _emailHelper = emailHelper;
         }
 
-        public List<Customer> GetCustomerList()
+        public List<CustomerDto> GetCustomerList()
         {
             try
             {
+                List<CustomerDto> customerDtos = new List<CustomerDto>();
                 var customers = _baseCustomerCommand.FindAll().ToList();
-                return customers;
+                foreach (var customer in customers)
+                {
+                    CustomerDto customerDto = new CustomerDto()
+                    {
+                        CustomerId = customer.CustomerId,
+                        Name = customer.Name,
+                        Email = customer.Email,
+                        Dob = customer.Dob.HasValue ? customer.Dob.Value.ToString("dd/MM/yyyy") : null,
+                        Address = customer.Address
+                    };
+                    customerDtos.Add(customerDto);
+
+                }
+                return customerDtos;
             }
             catch (Exception ex)
             {
@@ -47,10 +62,11 @@ namespace Service.Service.CustomerService
             }
         }
 
-        public List<Customer> SearchCustomers(int UserId, string? name, string? email)
+        public List<CustomerDto> SearchCustomers(int UserId, string? name, string? email)
         {
             try
             {
+                List<CustomerDto> customerDtos = new List<CustomerDto>();
                 var query = _baseCustomerCommand.FindAll();
                 if (!string.IsNullOrEmpty(name))
                 {
@@ -60,7 +76,20 @@ namespace Service.Service.CustomerService
                 {
                     query = query.Where(c => c.Email.Contains(email));
                 }
-                return query.ToList();
+                foreach (var customer in query.ToList())
+                {
+                    CustomerDto customerDto = new CustomerDto()
+                    {
+                        CustomerId = customer.CustomerId,
+                        Name = customer.Name,
+                        Email = customer.Email,
+                        Dob = customer.Dob.HasValue ? customer.Dob.Value.ToString("dd/MM/yyyy") : null,
+                        Address = customer.Address
+                    };
+                    customerDtos.Add(customerDto);
+                }
+
+                return customerDtos;
             }
             catch (Exception ex)
             {
