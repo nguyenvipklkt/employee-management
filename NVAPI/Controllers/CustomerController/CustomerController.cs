@@ -36,12 +36,12 @@ namespace NVAPI.Controllers.CustomerController
         }
 
         [HttpGet]
-        [Route("search-customers-by-name")]
-        public APIResponse SearchCustomersByName([FromQuery] string name)
+        [Route("search-customers")]
+        public APIResponse SearchCustomers([FromQuery] string? name, string? email)
         {
             try
             {
-                var res = _customerService.SearchCustomersByName(UserId, name);
+                var res = _customerService.SearchCustomers(UserId, name, email);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)

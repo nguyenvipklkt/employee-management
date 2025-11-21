@@ -10,7 +10,7 @@ namespace Service.Service.CustomerService
     public interface ICustomerService
     {
         List<Customer> GetCustomerList();
-        List<Customer> SearchCustomersByName(int UserId, string name);
+        List<Customer> SearchCustomers(int UserId, string? name, string? email);
         int AddCustomer(AddCustomerRequest request);
         int UpdateCustomer(UpdateCustomerRequest request);
         int DeleteCustomer(int customerId);
@@ -46,14 +46,20 @@ namespace Service.Service.CustomerService
             }
         }
 
-        public List<Customer> SearchCustomersByName(int UserId, string name)
+        public List<Customer> SearchCustomers(int UserId, string? name, string? email)
         {
-            List<User> users = new List<User>();
             try
             {
-                var customers = _baseCustomerCommand.FindByCondition(x => x.Name.Contains(name)).ToList();
-
-                return customers;
+                var query = _baseCustomerCommand.FindAll();
+                if (!string.IsNullOrEmpty(name))
+                {
+                    query = query.Where(c => c.Name.Contains(name));
+                }
+                if (!string.IsNullOrEmpty(email))
+                {
+                    query = query.Where(c => c.Email.Contains(email));
+                }
+                return query.ToList();
             }
             catch (Exception ex)
             {
@@ -100,7 +106,7 @@ namespace Service.Service.CustomerService
             }
         }
 
-        public int DeleteCustomer(int customerId) 
+        public int DeleteCustomer(int customerId)
         {
             try
             {
