@@ -9,7 +9,7 @@ using Service.Service.CustomerService;
 namespace NVAPI.Controllers.CustomerController
 {
     [ApiController]
-    [Route("api/role")]
+    [Route("api/customer")]
     [Authorize]
     public class CustomerController : BaseApiController<CustomerController>
     {
