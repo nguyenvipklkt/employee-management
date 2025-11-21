@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Common.Common;
 using Common.Enum;
-using Common.Enum.RoleEnum;
 using CoreValidation.Requests.Authentication;
 using Helper.BCryptHelper;
 using Helper.EmailHelper;
@@ -83,7 +82,6 @@ namespace Service.Service.Authentication
                     Email = request.Email,
                     Password = BCryptHelper.HashPassword(request.Password),
                     IsActive = 0,
-                    RoleCode = RoleEnum.EMPLOYEE,
                     CreateAt = DateTime.UtcNow,
                 };
                 _baseUserCommand.Create(user);

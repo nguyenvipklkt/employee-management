@@ -14,6 +14,7 @@ using NVAPI.ConfigApp;
 using Service.ServiceRegistration;
 using System.Data;
 using System.Text;
+using CoreValidation.Requests.Customer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddValidatorsFromAssemblyContaining<LoginValidation>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddCustomerRequestValidation>();
 
 // setup logger
 var baseDirectory = AppContext.BaseDirectory;

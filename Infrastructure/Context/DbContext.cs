@@ -13,9 +13,7 @@ namespace Infrastructure.Context
         //đăng ký các model vào dbcontext
         #region DbSet
         public DbSet<User> User { get; set; }
-        public DbSet<Role> Role { get; set; }
-        public DbSet<Function> Function { get; set; }
-        public DbSet<UserFunction> UserFunction { get; set; }
+        public DbSet<Customer> Customer { get; set; }
         public DbSet<OTP> OTP { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,7 +22,6 @@ namespace Infrastructure.Context
             {
                 base.OnModelCreating(modelBuilder);
                 modelBuilder.SeedUser();
-                modelBuilder.SeedRole();
             }
             catch (Exception ex)
             {

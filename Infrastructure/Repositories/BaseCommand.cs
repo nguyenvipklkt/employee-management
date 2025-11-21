@@ -16,9 +16,6 @@ namespace Infrastructure.Repositories
         bool UpdateByEntityList(IEnumerable<T> entityList);
         bool UpdateRange(List<T> range);
         bool DeleteByEntity(T entity);
-        T CreateNoSaveChange(T newEntity);
-        bool SaveChange();
-        T UpdateByEntityNoSaveChange(T entity);
     }
 
     public class BaseCommand<T> : IBaseCommand<T> where T : class
@@ -144,48 +141,6 @@ namespace Infrastructure.Repositories
             }
             catch (Exception)
             {
-                throw;
-            }
-        }
-
-        public T CreateNoSaveChange(T newEntity)
-        {
-            try
-            {
-                var entity = _model.Add(newEntity);
-                return entity.Entity;
-            }
-            catch (Exception ex)
-            {
-                BaseNLog.logger.Error(ex);
-                throw;
-            }
-        }
-
-        public bool SaveChange()
-        {
-            try
-            {
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                BaseNLog.logger.Error(ex);
-                throw;
-            }
-        }
-
-        public T UpdateByEntityNoSaveChange(T entity)
-        {
-            try
-            {
-                _model.Update(entity);
-                return entity;
-            }
-            catch (Exception ex)
-            {
-                BaseNLog.logger.Error(ex);
                 throw;
             }
         }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CoreValidation.Requests.Role;
+using CoreValidation.Requests.Customer;
 using Object.Dto;
 using Object.Model;
 
@@ -10,7 +10,8 @@ namespace Service.ServiceRegistration
         public MapperRegistraion()
         {
             CreateMap<User, UserDto>();
-            CreateMap<Role, AddRoleRequest>().ReverseMap();
+            CreateMap<Customer, AddCustomerRequest>().ReverseMap();
+            CreateMap<Customer, UpdateCustomerRequest>().ReverseMap();
         }
     }
 }
