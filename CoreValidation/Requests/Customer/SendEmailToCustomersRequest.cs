@@ -8,7 +8,8 @@ namespace CoreValidation.Requests.Customer
 {
     public class SendEmailToCustomersRequest
     {
-        public List<int> CustomerIdList { get; set; }
+        public List<int> CustomerIdList { get; set; } = new List<int>();
+        public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
     }
 }

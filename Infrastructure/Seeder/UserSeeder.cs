@@ -13,9 +13,9 @@ namespace Infrastructure.Seeder
                 new User
                 {
                     UserId = 1,
-                    Name = "Nguyên Trung",
-                    Email = "nguyenhua2508@gmail.com",
-                    Password = BCryptHelper.HashPassword("nguyen250802"),
+                    Name = "Huy Nguyễn",
+                    Email = "nguyenhuy22245@gmail.com",
+                    Password = BCryptHelper.HashPassword("123456"),
                     Dob = new DateTime(2002, 08, 25),
                     OTPId = 1,
                     Address = "Hà Nội",

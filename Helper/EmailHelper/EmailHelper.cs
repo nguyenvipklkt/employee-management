@@ -54,7 +54,7 @@ public class EmailHelper
         }
     }
 
-    public async Task<string> SendVerificationEmail(List<Customer> customerList, string content)
+    public async Task<string> SendEvenEmail(List<Customer> customerList, string title, string content)
     {
         int count = customerList.Count;
         int successCount = 0;
@@ -64,11 +64,11 @@ public class EmailHelper
             {
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress(
-                    "Thông báo khách hàng",
+                    "Thông báo sự kiện",
                     _settings.SenderEmail));
 
                 email.To.Add(new MailboxAddress(string.Empty, customer.Email));
-                email.Subject = "Xác thực tài khoản người dùng";
+                email.Subject = title;
                 email.Body = new TextPart("plain")
                 {
                     Text = $"Kính gửi quý khách hàng {customer.Name},{Environment.NewLine}{Environment.NewLine}" +

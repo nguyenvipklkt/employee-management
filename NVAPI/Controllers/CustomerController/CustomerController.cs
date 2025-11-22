@@ -99,11 +99,11 @@ namespace NVAPI.Controllers.CustomerController
 
         [HttpPost]
         [Route("send-email-to-customers")]
-        public APIResponse SendEmailToCustomers(SendEmailToCustomersRequest sendEmailToCustomersRequest)
+        public async Task<APIResponse> SendEmailToCustomers(SendEmailToCustomersRequest sendEmailToCustomersRequest)
         {
             try
             {
-                var res = _customerService.SendEmailToCustomers(sendEmailToCustomersRequest.CustomerIdList, sendEmailToCustomersRequest.Content);
+                var res = await _customerService.SendEmailToCustomers(sendEmailToCustomersRequest.CustomerIdList, sendEmailToCustomersRequest.Title, sendEmailToCustomersRequest.Content);
                 return new APIResponse { Data = res };
             }
             catch (Exception ex)

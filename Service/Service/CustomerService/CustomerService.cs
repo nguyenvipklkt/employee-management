@@ -16,7 +16,7 @@ namespace Service.Service.CustomerService
         int AddCustomer(AddCustomerRequest request, int userId);
         int UpdateCustomer(UpdateCustomerRequest request, int userId);
         int DeleteCustomer(int customerId);
-        Task<string> SendEmailToCustomers(List<int> customerIdList, string content);
+        Task<string> SendEmailToCustomers(List<int> customerIdList, string title, string content);
     }
 
     public class CustomerService : ICustomerService
@@ -208,7 +208,7 @@ namespace Service.Service.CustomerService
             }
         }
 
-        public async Task<string> SendEmailToCustomers(List<int> customerIdList, string content)
+        public async Task<string> SendEmailToCustomers(List<int> customerIdList, string title, string content)
         {
             List<Customer> customers = new List<Customer>();
             try
@@ -222,7 +222,7 @@ namespace Service.Service.CustomerService
                     }
                     customers.Add(customer);
                 }
-                string result = await _emailHelper.SendVerificationEmail(customers, content);
+                string result = await _emailHelper.SendEvenEmail(customers, title, content);
                 return result;
             }
             catch (Exception ex)
